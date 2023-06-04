@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 
-import { ErrResponse } from "server/utils/errorResponse";
+import { ErrResponse } from "@server/utils/errorResponse";
 
 const errorHandler = (
   err: ErrResponse | Error,
