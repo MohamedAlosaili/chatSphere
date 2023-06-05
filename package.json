@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "next build && next export",
     "start": "next start",
     "lint": "next lint"
   },
@@ -13,14 +13,12 @@
     "@types/react": "18.2.7",
     "@types/react-dom": "18.2.4",
     "autoprefixer": "10.4.14",
+    "axios": "^1.4.0",
     "cookie": "^0.5.0",
     "eslint": "8.41.0",
     "eslint-config-next": "13.4.4",
-    "http-proxy": "^1.18.1",
     "jsonwebtoken": "^9.0.0",
-    "mongodb": "^5.6.0",
     "next": "13.4.4",
-    "nodemailer": "^6.9.3",
     "postcss": "8.4.24",
     "react": "18.2.0",
     "react-dom": "18.2.0",
@@ -29,8 +27,6 @@
   },
   "devDependencies": {
     "@types/cookie": "^0.5.1",
-    "@types/http-proxy": "^1.17.11",
-    "@types/jsonwebtoken": "^9.0.2",
-    "@types/nodemailer": "^6.4.8"
+    "@types/jsonwebtoken": "^9.0.2"
   }
 }
