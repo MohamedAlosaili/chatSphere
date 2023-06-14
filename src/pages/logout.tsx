@@ -1,20 +1,17 @@
-//  packages
+import { redirect } from "@/utils/serverProps";
+import { removeTokenCookie } from "@/lib/authCookies";
+
+//  Types
 import { ServerResponse } from "http";
 
-// server modules
-import { redirect } from "@/utils/serverProps";
-import { removeTokenCookie } from "@lib/authCookies";
-
-const Logout = () => {
-  return false;
-};
+const Logout = () => false;
 
 export const getServerSideProps = ({ res }: { res: ServerResponse }) => {
   try {
     removeTokenCookie(res);
-    return redirect("/");
+    return redirect("/landing");
   } catch (err) {
-    return redirect("/home");
+    return redirect("/");
   }
 };
 
