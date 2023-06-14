@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import httpProxy from "http-proxy";
 
-import { getTokenCookie } from "@lib/authCookies";
+import { getTokenCookie } from "@/lib/authCookies";
 import { API_URL } from "@/config";
 
 const target = API_URL;
