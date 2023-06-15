@@ -1,16 +1,15 @@
-import Link from "next/link";
-import { GetServerSidePropsContext } from "next";
-
 import { propsWithMessage, redirect } from "@/utils/serverProps";
-import { setTokenCookie } from "@lib/authCookies";
-import { signJwtToken, verifyJwtToken } from "@lib/jwtToken";
+import { getTokenCookie, setTokenCookie } from "@/lib/authCookies";
+import { signJwtToken, verifyJwtToken } from "@/lib/jwtToken";
+
+// Types
+import { GetServerSidePropsContext } from "next";
 
 const Verify = ({ message }: { message: string }) => {
   return (
     <div>
       <h2>{message}</h2>
       {/* Inform message if the authentication failed */}
-      <Link href="/">Home</Link>
     </div>
   );
 };
@@ -21,11 +20,11 @@ export const getServerSideProps = async ({
   query,
 }: GetServerSidePropsContext) => {
   // if the user manually navigate to this page it will redirect to home page if there is a token in the cookies
-  if (req.cookies.token) return redirect("/home");
+  if (getTokenCookie(req)) return redirect("/");
 
   // users comes from magic link will have token in the url query
   const token = query.token as string;
-  if (!token) return redirect("/");
+  if (!token) return redirect("/landing");
 
   try {
     const decoded = verifyJwtToken<{ id: string }>(token);
@@ -34,7 +33,7 @@ export const getServerSideProps = async ({
 
     setTokenCookie(res, newToken);
 
-    return redirect("home");
+    return redirect("/");
   } catch (err) {
     console.log(err);
     return propsWithMessage(
