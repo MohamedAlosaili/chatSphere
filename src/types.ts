@@ -6,7 +6,7 @@ interface TDocument {
 
 export interface TUser extends TDocument {
   username: string;
-  email: string;
+  email?: string;
   isOnline: boolean;
   photo: string;
 }
