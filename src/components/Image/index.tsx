@@ -29,12 +29,11 @@ function Image({ src, alt, className = "", style }: Props) {
     setError(true);
   };
 
-  // TODO: Add background-colot
   return (
     <picture
-      onClick={e => (error || loading) && reloadNum < 3 && e.stopPropagation()}
+      onClick={e => (error || loading) && reloadNum < 3 && e.preventDefault()}
       className={twMerge(
-        `block h-full overflow-hidden ${!loading ? "bg-" : ""} ${
+        `block h-full overflow-hidden ${!loading ? "bg-accent/25" : ""} ${
           error ? "cursor-auto" : ""
         }`,
         className
@@ -49,7 +48,7 @@ function Image({ src, alt, className = "", style }: Props) {
           >
             <TbFaceIdError className="text-[1.5em]" />
             {reloadNum < 3 && (
-              <AiOutlineReload className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 scale-150 transform text-[2em]" />
+              <AiOutlineReload className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 scale-150 transform text-[2em]" />
             )}
           </button>
         </div>
