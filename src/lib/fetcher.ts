@@ -1,14 +1,20 @@
 import axios, { AxiosRequestConfig, AxiosError } from "axios";
 
-const response = <TData, TError = unknown>(
+export interface FetcherResponse<TData = any> {
+  success: boolean;
+  data: TData;
+  message?: string;
+  error?: string;
+}
+
+const response = <TData>(
   success: boolean,
   data: TData,
-  error?: TError,
-  message?: string
-) => ({
+  message: string = ""
+): FetcherResponse<TData> => ({
   success,
   data,
-  ...(success ? { message } : { error }),
+  ...(success ? { message } : { error: message }),
 });
 
 export const fetcher = async <TData = any>(
@@ -16,24 +22,25 @@ export const fetcher = async <TData = any>(
   options?: AxiosRequestConfig
 ) => {
   try {
-    const res = await axios(url, options);
+    const res = await axios<{
+      success: boolean;
+      data: TData;
+      message?: string;
+      error?: string;
+    }>(url, options);
 
-    return response<TData>(
-      res.data?.success,
-      res.data?.data,
-      res.data?.message
-    );
+    return response<TData>(res.data.success, res.data.data, res.data.message);
   } catch (err) {
     if (err instanceof AxiosError) {
-      return response<null, string>(
+      return response<null>(
         false,
-        err.response?.data.data,
-        err.response?.data.error ?? err.response?.statusText
+        null,
+        (err.response?.data.error ?? err.response?.statusText) as string
       );
     } else if (err instanceof Error) {
-      return response<null, string>(false, null, err.message);
+      return response<null>(false, null, err.message);
     } else {
-      return response<null, string>(false, null, "Internal Server Error");
+      return response<null>(false, null, "Internal Server Error");
     }
   }
 };
