@@ -1,10 +1,4 @@
-import {
-  ChangeEvent,
-  ComponentProps,
-  Dispatch,
-  ReactNode,
-  SetStateAction,
-} from "react";
+import { ChangeEvent, ComponentProps, Dispatch, SetStateAction } from "react";
 import { twMerge } from "tailwind-merge";
 
 interface InputProps extends Partial<ComponentProps<"input">> {
@@ -17,7 +11,6 @@ interface InputProps extends Partial<ComponentProps<"input">> {
 }
 
 const Input = ({
-  value,
   setValue,
   className,
   label,
@@ -39,7 +32,6 @@ const Input = ({
       <input
         type="text"
         {...props}
-        value={value}
         className={twMerge(
           `rounded-xl border-2 border-accent/20 bg-accent/10 p-3 caret-accent transition-colors focus:border-accent/40 focus:bg-transparent focus:outline-none ${
             props.disabled ? "cursor-pointer" : ""
