@@ -11,7 +11,6 @@ import { FetcherResponse, fetcher } from "@/lib/fetcher";
 
 // Types
 import { TUser } from "@/types";
-import useAsync from "@/hooks/useAsync";
 
 interface Props {
   user: TUser;
@@ -25,8 +24,6 @@ const UpdateProfileModal = ({ user, updateCurrentUser, close }: Props) => {
   const [userInfo, setUserInfo] = useState<{ [key: string]: string }>({
     username: user.username,
   });
-
-  const sendRequest = useAsync(setLoading);
 
   const preview = useMemo(() => {
     return file ? URL.createObjectURL(file) : null;
@@ -64,13 +61,18 @@ const UpdateProfileModal = ({ user, updateCurrentUser, close }: Props) => {
         })
       );
     }
-
     setLoading(true);
-    await sendRequest(request, "Profile updated", "Failed to update Profile");
-    await updateCurrentUser();
+    const results = await Promise.all(request);
 
-    setLoading(false);
-    close();
+    if (results.every(res => res.success)) {
+      await updateCurrentUser();
+
+      toast.success("Profile Updated");
+      close();
+    } else {
+      setLoading(false);
+      toast.error("Failed to update Profile");
+    }
   };
 
   return (
