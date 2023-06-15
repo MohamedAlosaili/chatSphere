@@ -17,19 +17,26 @@
     "cookie": "^0.5.0",
     "eslint": "8.41.0",
     "eslint-config-next": "13.4.4",
+    "framer-motion": "^10.12.16",
     "http-proxy": "^1.18.1",
     "jsonwebtoken": "^9.0.0",
     "next": "13.4.4",
     "postcss": "8.4.24",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-icons": "^4.9.0",
+    "react-toastify": "^9.1.3",
+    "sass": "^1.63.4",
     "socket.io-client": "^4.6.2",
+    "tailwind-merge": "^1.13.1",
     "tailwindcss": "3.3.2",
     "typescript": "5.0.4"
   },
   "devDependencies": {
     "@types/cookie": "^0.5.1",
     "@types/http-proxy": "^1.17.11",
-    "@types/jsonwebtoken": "^9.0.2"
+    "@types/jsonwebtoken": "^9.0.2",
+    "prettier": "^2.8.8",
+    "prettier-plugin-tailwindcss": "^0.3.0"
   }
 }
