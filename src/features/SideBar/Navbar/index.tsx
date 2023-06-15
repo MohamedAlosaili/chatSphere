@@ -18,7 +18,7 @@ const Navbar = ({ activeTap, setActiveTap }: Props) => {
   const { user } = useUserContext();
 
   return (
-    <nav className="bg-bcolor overflow-hidden lg:py-8 lg:justify-start lg:items-center z-10 flex lg:flex-col lg:w-fit justify-evenly w-full rounded-tr-2xl rounded-tl-2xl lg:rounded-tl-none lg:rounded-br-[2rem] lg:rounded-tr-[2rem]  absolute bottom-0 left-0 lg:relative">
+    <nav className="absolute bottom-0 left-0 z-10 flex w-full justify-evenly overflow-hidden rounded-tl-2xl rounded-tr-2xl bg-bcolor lg:relative lg:w-fit lg:flex-col lg:items-center lg:justify-start  lg:rounded-br-[2rem] lg:rounded-tl-none lg:rounded-tr-[2rem] lg:py-8">
       <NavButton
         onClick={() => setActiveTap("profile")}
         active={activeTap === "profile"}
@@ -26,15 +26,15 @@ const Navbar = ({ activeTap, setActiveTap }: Props) => {
         <Image
           src={getUserPhoto(user!.photo)}
           alt={`${user?.username} photo`}
-          className={`w-8 lg:w-12 aspect-square rounded-2xl`}
+          className={`aspect-square w-8 rounded-2xl lg:w-12`}
         />
         <span
-          className={`absolute bottom-4 right-4 w-3 aspect-square ${
+          className={`absolute bottom-4 right-4 aspect-square w-3 ${
             user!.isOnline ? "bg-green-500" : "bg-green-200"
           } rounded-full text-white`}
         ></span>
       </NavButton>
-      <div className="hidden lg:block w-3/4 h-1 bg-accent/25 rounded-full my-4"></div>
+      <div className="my-4 hidden h-1 w-3/4 rounded-full bg-accent/25 lg:block"></div>
       <NavButton
         onClick={() => setActiveTap("my rooms")}
         active={activeTap === "my rooms"}
@@ -49,7 +49,7 @@ const Navbar = ({ activeTap, setActiveTap }: Props) => {
         <span
           className={`absolute bottom-2 right-4 px-1 py-px ${
             user!.isOnline ? "bg-green-500" : "bg-green-200"
-          } rounded-full text-white text-xs`}
+          } rounded-full text-xs text-white`}
         >
           22
         </span>
@@ -60,10 +60,10 @@ const Navbar = ({ activeTap, setActiveTap }: Props) => {
       >
         <BiMessageSquareAdd size={28} />
       </NavButton>
-      <div className="hidden w-full flex-1 lg:flex items-end">
+      <div className="hidden w-full flex-1 items-end lg:flex">
         <Link
           href="/logout"
-          className="transition-colors block p-4 text-red-700 hover:text-red-600 hover:bg-red-600/10 w-full"
+          className="block w-full p-4 text-rose-500 transition-colors hover:bg-rose-500/10 hover:text-rose-500"
         >
           <HiLogout size={28} className="mx-auto" />
         </Link>
