@@ -1,46 +1,57 @@
-//  packages
-import Link from "next/link";
-import { useState } from "react";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+import Layout from "@/components/Layout";
+import Sidebar from "@/features/SideBar";
+import RoomWindow from "@/features/RoomWindow";
+import UserContextProvider from "@/context/UserContext";
+import RoomContextProvider from "@/context/RoomContext";
+import { getTokenCookie, removeTokenCookie } from "@/lib/authCookies";
+import { redirect } from "@/utils/serverProps";
+import { API_URL } from "@/config";
+import { fetcher } from "@/lib/fetcher";
+
+// Types
+import { TUser } from "@/types";
 import { GetServerSidePropsContext } from "next";
 
-// server modules
-import { getTokenCookie } from "@lib/authCookies";
-
-// client modules & components
-import Login from "@/components/Login";
-import { redirect } from "@/utils/serverProps";
-
-const Landing = () => {
-  const [showLogin, setShowLogin] = useState(false);
-
+const Home = ({ user }: { user: TUser }) => {
   return (
-    <div className="h-screen flex flex-col justify-center items-center gap-4">
-      <h1 className="text-4xl">Landing Page</h1>
-      <Link href="/home">Home page</Link>
-      <button onClick={() => setShowLogin(true)}>Login</button>
-      {showLogin && (
-        <>
-          <button
-            className="fixed top-8 left-8 text-4xl z-10"
-            onClick={() => setShowLogin(false)}
-          >
-            X
-          </button>
-          <Login />
-        </>
-      )}
-    </div>
+    <UserContextProvider user={user}>
+      <RoomContextProvider>
+        <Layout>
+          <Sidebar />
+          <RoomWindow />
+        </Layout>
+        <ToastContainer limit={2} />
+      </RoomContextProvider>
+    </UserContextProvider>
   );
 };
 
-export const getServerSideProps = ({ req }: GetServerSidePropsContext) => {
+export const getServerSideProps = async ({
+  req,
+  res,
+}: GetServerSidePropsContext) => {
   const token = getTokenCookie(req);
+  if (!token) return redirect("/landing");
 
-  if (token) return redirect("/home");
+  const response = await fetcher<{ data: TUser }>(
+    `${API_URL}/api/auth/currentUser`,
+    { headers: { Authorization: `Bearer ${token}` } }
+  );
 
-  return {
-    props: {},
-  };
+  if (response.success) {
+    return {
+      props: {
+        user: JSON.parse(JSON.stringify(response.data)),
+      },
+    };
+  } else {
+    // Token in cookies is invalid, remove it
+    removeTokenCookie(res);
+    return redirect("/landing");
+  }
 };
 
-export default Landing;
+export default Home;
