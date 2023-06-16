@@ -1,4 +1,4 @@
-const getUserPhoto = (photo: string) => {
+const getPhoto = (photo: string) => {
   if (photo.includes("default-photo")) {
     return `/images/${photo}`;
   } else {
@@ -6,4 +6,4 @@ const getUserPhoto = (photo: string) => {
   }
 };
 
-export default getUserPhoto;
+export default getPhoto;
