@@ -22,8 +22,9 @@ const MyRooms = ({ setActiveTap }: MyRoomProps) => {
     <div>
       {/* TODO: Add Sreach component */}
       <div className="pt-4">
-        {loading && <CardsSkeleton size={5} />}
-        {rooms && rooms.length > 0 ? (
+        {loading ? (
+          <CardsSkeleton size={5} />
+        ) : rooms && rooms.length > 0 ? (
           rooms?.map(room => <RoomCard key={room._id} room={room} />)
         ) : (
           <>
