@@ -1,7 +1,7 @@
 import { PropsWithChildren } from "react";
 
 const Layout = ({ children }: PropsWithChildren) => (
-  <div className="h-screen overflow-hidden md:grid grid-cols-[minmax(8rem,_28rem)_minmax(32rem,_1fr)]">
+  <div className="h-screen overflow-hidden md:grid md:grid-cols-[20rem_1fr] lg:grid-cols-[minmax(20rem,_30rem)_minmax(40rem,_1fr)]">
     {children}
   </div>
 );
