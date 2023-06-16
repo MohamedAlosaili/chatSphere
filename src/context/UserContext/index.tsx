@@ -33,7 +33,7 @@ const UserContextProvider = (props: Props) => {
     if (result.success && result.data) {
       setUser(result.data);
     } else {
-      toast.error("Something went wrong while updating user info!");
+      toast.error("Failed to update user information!");
     }
   };
 
