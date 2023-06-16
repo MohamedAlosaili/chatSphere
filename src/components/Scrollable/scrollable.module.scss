@@ -1,12 +1,12 @@
 .scrollable {
   /* TODO: Add accent color */
-  /* --accent-color:  */
+  --accent-color: 107 138 253;
 
   height: 100%;
   overflow-x: hidden;
   overflow-y: scroll;
   scrollbar-width: thin;
-  scrollbar-color: rgb(0 0 0 / 0.5) transparent;
+  scrollbar-color: rgb(var(--accent-color, 0 0 0) / 0.5) transparent;
 
   /* Hide an only show in hover */
   -webkit-mask-image: linear-gradient(to top, transparent, black),
@@ -33,13 +33,11 @@
     }
 
     &-thumb {
-      /* background-color: rgb(var(--accent-color) / 0.25); */
-      background-color: rgb(0 0 0 / 0.5);
+      background-color: rgb(var(--accent-color, 0 0 0) / 0.25);
       border-radius: 100px;
 
       &:hover {
-        /* background-color: rgb(var(--accent-color) / 0.5); */
-        background-color: rgb(0 0 0 / 0.75);
+        background-color: rgb(var(--accent-color, 0 0 0) / 0.5);
       }
     }
   }
