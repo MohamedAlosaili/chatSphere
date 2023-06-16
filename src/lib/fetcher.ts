@@ -5,42 +5,38 @@ export interface FetcherResponse<TData = any> {
   data: TData;
   message?: string;
   error?: string;
+  pagination?: {
+    next: boolean;
+    prev: boolean;
+    limit: number;
+    page: number;
+    pageSize: number;
+    totalPages: number;
+  };
+  total?: number;
 }
-
-const response = <TData>(
-  success: boolean,
-  data: TData,
-  message: string = ""
-): FetcherResponse<TData> => ({
-  success,
-  data,
-  ...(success ? { message } : { error: message }),
-});
 
 export const fetcher = async <TData = any>(
   url: string,
   options?: AxiosRequestConfig
 ) => {
   try {
-    const res = await axios<{
-      success: boolean;
-      data: TData;
-      message?: string;
-      error?: string;
-    }>(url, options);
+    const { data } = await axios<FetcherResponse<TData>>(url, options);
 
-    return response<TData>(res.data.success, res.data.data, res.data.message);
+    return { ...data };
   } catch (err) {
+    let error = "Internal Server Error";
+
     if (err instanceof AxiosError) {
-      return response<null>(
-        false,
-        null,
-        (err.response?.data.error ?? err.response?.statusText) as string
-      );
+      error = err.response?.data.error ?? err.response?.statusText;
     } else if (err instanceof Error) {
-      return response<null>(false, null, err.message);
-    } else {
-      return response<null>(false, null, "Internal Server Error");
+      error = err.message;
     }
+
+    return {
+      success: false,
+      data: null,
+      error,
+    };
   }
 };
