@@ -61,8 +61,7 @@ const Modal = ({
         <Scrollable className="flex flex-col gap-4 p-6">
           {title?.text && (
             <h1 className="flex items-center justify-center gap-2 text-xl font-semibold">
-              <span className="truncate flex-1">{title.text}</span>{" "}
-              {title?.icon ?? ""}
+              {title.text} {title?.icon ?? ""}
             </h1>
           )}
           {children}
