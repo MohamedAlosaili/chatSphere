@@ -1,53 +1,64 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { AxiosRequestConfig } from "axios";
 import { toast } from "react-toastify";
 
+// Types
 import { FetcherResponse, fetcher } from "@/lib/fetcher";
+import { MutableRefObject } from "react";
 
-type UseDocuments<T> = [
-  T[] | undefined,
-  boolean,
-  (nextPage?: boolean) => void,
-  number | undefined
-];
+interface Options extends AxiosRequestConfig {
+  errorMessage?: string;
+  initialLoading?: boolean;
+}
+
+type UseDocuments<T> = [T[], boolean, (nextPage?: boolean) => void, number];
 
 const useDocuments = <T>(
   url: string,
-  options?: AxiosRequestConfig,
-  errorMessage?: string
+  { initialLoading = true, errorMessage, ...options }: Options = {}
 ): UseDocuments<T> => {
-  const [response, setResponse] = useState<FetcherResponse<T[]> | undefined>(
-    undefined
-  );
-  const [loading, setLoading] = useState(true);
+  const response: MutableRefObject<FetcherResponse<T[]> | undefined> = useRef();
+  const [result, setResult] = useState<T[]>([]);
+  const [loading, setLoading] = useState(initialLoading);
 
   useEffect(() => {
-    fetchDocuments();
+    initialLoading && fetchDocuments();
   }, []);
 
-  const fetchDocuments = async (nextPage?: boolean) => {
+  const fetchDocuments = async (page: number = 1) => {
     setLoading(true);
 
-    let URL = url;
-    if (nextPage && response?.pagination?.next) {
-      URL += `?page=${response.pagination.page + 1}`;
-    }
+    const prefix = url.includes("?") ? "&" : "?";
+    const URL = url.replace(/page=\d+/, "") + `${prefix}page=${page}`;
 
     const res = await fetcher<T[]>(URL, options);
 
     setLoading(false);
     if (res.success && res.data) {
-      setResponse(res);
+      if (page > 1) {
+        setResult(prevResult => [...prevResult, ...res.data]);
+      } else {
+        setResult(res.data);
+      }
+
+      response.current = res;
     } else {
       errorMessage && toast.error(errorMessage);
     }
   };
 
   const update = (nextPage?: boolean) => {
-    fetchDocuments(nextPage);
+    const res = response.current;
+
+    let page = 1;
+    if (nextPage && res && res.pagination?.next) {
+      page = res.pagination.page + 1;
+    }
+
+    fetchDocuments(page);
   };
 
-  return [response?.data, loading, update, response?.total];
+  return [result, loading, update, response.current?.total ?? 0];
 };
 
 export default useDocuments;
