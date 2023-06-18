@@ -6,18 +6,20 @@ import { CardsSkeleton } from "@/components/Card";
 
 // Types
 import { TUser } from "@/types";
+import { ToggleModalOptions } from "../types";
 
 interface UsersProps {
   online: {
-    users: TUser[] | undefined;
+    users: TUser[];
     loading: boolean;
     update: (nextPage: boolean) => void;
     total: number;
   };
+  toggleCreateRoomModal: (options?: ToggleModalOptions) => void;
 }
 
-const Users = ({ online }: UsersProps) => {
-  const [offlineUsers, offlineLoading, offLineUpdate, offlineTotal] =
+const Users = ({ online, toggleCreateRoomModal }: UsersProps) => {
+  const [offlineUsers, offlineLoading, , offlineTotal] =
     useDocuments<TUser>("/api/users/offline");
 
   return (
@@ -26,8 +28,14 @@ const Users = ({ online }: UsersProps) => {
       <UsersList label="online" total={online.total} open>
         {online.loading ? (
           <CardsSkeleton size={5} />
-        ) : online.users && online.users?.length > 0 ? (
-          online.users.map(user => <UserCard key={user._id} user={user} />)
+        ) : online.users.length > 0 ? (
+          online.users.map(user => (
+            <UserCard
+              key={user._id}
+              user={user}
+              showCreateRoomModal={toggleCreateRoomModal}
+            />
+          ))
         ) : (
           <h4 className="my-8 text-center text-tcolor">No one is online now</h4>
         )}
@@ -36,24 +44,17 @@ const Users = ({ online }: UsersProps) => {
         {offlineLoading ? (
           <CardsSkeleton size={5} />
         ) : (
-          offlineUsers &&
-          offlineUsers.map(user => <UserCard key={user._id} user={user} />)
+          offlineUsers.map(user => (
+            <UserCard
+              key={user._id}
+              user={user}
+              showCreateRoomModal={toggleCreateRoomModal}
+            />
+          ))
         )}
       </UsersList>
     </div>
   );
-};
-
-const calcTotalUsers = (
-  online: number | undefined,
-  offline: number | undefined
-) => {
-  let total = 0;
-
-  if (online) total += online;
-  if (offline) total += offline;
-
-  return total;
 };
 
 export default Users;
