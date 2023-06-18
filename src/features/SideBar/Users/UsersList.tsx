@@ -18,7 +18,7 @@ const UsersList = ({ label, total, children, ...props }: UsersListProps) => (
         <span className="text-sm">{`(${total})`}</span>
       </div>
       <div className="relative h-5 w-10 rounded-full bg-accent/[.15] transition-colors group-open:bg-accent/75">
-        <span className="absolute left-px top-1/2 block h-[1.1rem] w-[1.1rem] -translate-y-1/2 translate-x-0 rounded-full bg-tcolor transition-all active:w-[1.5rem] group-open:left-full group-open:-translate-x-[calc(100%+1px)] group-active:w-[1.5rem] "></span>
+        <span className="absolute left-px top-1/2 block h-[1.1rem] w-[1.1rem] -translate-y-1/2 translate-x-0 rounded-full bg-tcolor transition-all active:w-[1.5rem] group-open:left-full group-open:-translate-x-[calc(100%+1px)]"></span>
       </div>
     </summary>
     {children}
