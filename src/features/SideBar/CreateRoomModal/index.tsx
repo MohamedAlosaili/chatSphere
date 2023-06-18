@@ -86,6 +86,7 @@ const CreateNewRoomModal = ({
         <BasicInfoTap
           loading={loading}
           members={members}
+          setMembers={setMembers}
           setTap={setTap}
           roomInfoRef={roomInfoRef}
         />
@@ -102,7 +103,11 @@ const CreateNewRoomModal = ({
           {tap === "members" ? "Previous" : "Cancel"}
         </Button>
         {members.length > 0 || tap === "members" ? (
-          <Button onClick={createNewRoom} className="flex-1 grow-[2]">
+          <Button
+            onClick={createNewRoom}
+            className="flex-1 grow-[2]"
+            disabled={members.length === 0}
+          >
             {loading ? "Creating room..." : "Create room"}
           </Button>
         ) : (
