@@ -3,12 +3,18 @@ import { BiMessageSquareAdd } from "react-icons/bi";
 import Image from "@/components/Image";
 import Card from "@/components/Card";
 import getUserPhoto from "@/utils/getPhoto";
+import Button from "@/components/Button";
 
 // Types
 import { TUser } from "@/types";
-import Button from "@/components/Button";
+import { ToggleModalOptions } from "../types";
 
-const UserCard = ({ user }: { user: TUser }) => {
+interface UserCardProps {
+  user: TUser;
+  showCreateRoomModal: (options?: ToggleModalOptions) => void;
+}
+
+const UserCard = ({ user, showCreateRoomModal }: UserCardProps) => {
   return (
     <Card className={`cursor-auto`}>
       <Image
@@ -20,8 +26,11 @@ const UserCard = ({ user }: { user: TUser }) => {
         <h3 className="truncate font-medium text-tcolor">{user.username}</h3>
       </div>
       <div className="flex max-w-[4rem] flex-col items-center justify-center gap-2 text-xs">
-        {/* TODO: add onClick - show CreateRoomModal */}
-        <Button className="px-2">
+        <Button
+          className="px-2"
+          // 
+          onClick={() => showCreateRoomModal({selectedUser: user})}
+        >
           <BiMessageSquareAdd size={28} />
         </Button>
       </div>
