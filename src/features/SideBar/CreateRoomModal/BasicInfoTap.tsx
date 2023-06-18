@@ -22,10 +22,11 @@ interface BasicTapProps {
   loading: boolean;
   roomInfoRef: MutableRefObject<RoomInfo>;
   members: TUser[];
+  setMembers: Dispatch<SetStateAction<TUser[]>>;
   setTap: Dispatch<SetStateAction<"basic" | "members">>;
 }
 
-const BasicTap = ({ loading, roomInfoRef, members, setTap }: BasicTapProps) => {
+const BasicTap = ({ loading, roomInfoRef, members, setMembers, setTap }: BasicTapProps) => {
   const [{ name }, setName] = useState<IndexSignature>({
     name: roomInfoRef.current.name ?? "",
   });
@@ -117,7 +118,7 @@ const BasicTap = ({ loading, roomInfoRef, members, setTap }: BasicTapProps) => {
           </h3>
           <div className="flex flex-wrap gap-1">
             {members?.map(member => (
-              <Member key={member._id} member={member} />
+              <Member key={member._id} member={member} updateMembers={() => setMembers(prevMembers => prevMembers.filter(m => m._id !== member._id))} />
             ))}
           </div>
         </>
