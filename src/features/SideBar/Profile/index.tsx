@@ -5,7 +5,7 @@ import Button from "@/components/Button";
 import Image from "@/components/Image";
 import UpdateProfileModal from "./UpdateProfileModal";
 import { useUserContext } from "@/context/UserContext";
-import getUserPhoto from "@/utils/getUerPhoto";
+import getUserPhoto from "@/utils/getPhoto";
 import Link from "next/link";
 
 const Profile = () => {

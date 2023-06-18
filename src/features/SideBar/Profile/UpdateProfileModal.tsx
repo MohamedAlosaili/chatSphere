@@ -6,11 +6,11 @@ import Modal from "@/components/Modal";
 import InputFile from "@/components/InputFile";
 import Image from "@/components/Image";
 import Input from "@/components/Input";
-import getUserPhoto from "@/utils/getUerPhoto";
+import getUserPhoto from "@/utils/getPhoto";
 import { FetcherResponse, fetcher } from "@/lib/fetcher";
 
 // Types
-import { TUser } from "@/types";
+import { IndexSignature, TUser } from "@/types";
 
 interface Props {
   user: TUser;
@@ -21,7 +21,7 @@ interface Props {
 const UpdateProfileModal = ({ user, updateCurrentUser, close }: Props) => {
   const [loading, setLoading] = useState(false);
   const [file, setFile] = useState<File | undefined>(undefined);
-  const [userInfo, setUserInfo] = useState<{ [key: string]: string }>({
+  const [userInfo, setUserInfo] = useState<IndexSignature>({
     username: user.username,
   });
 
@@ -108,6 +108,7 @@ const UpdateProfileModal = ({ user, updateCurrentUser, close }: Props) => {
           label="Username"
           value={userInfo.username}
           setValue={setUserInfo}
+          disabled={loading}
           placeholder="e.g. Mohamed"
         />
       </div>
