@@ -1,10 +1,9 @@
 import { useState } from "react";
 
 import useDocuments from "@/hooks/useDocuments";
-import useSearch from "@/hooks/useSearch";
 import Scrollable from "@/components/Scrollable";
 import Button from "@/components/Button";
-import Search from "@/components/Search";
+import Search, { useSearch, NoResult } from "@/features/Search";
 import { Member, User } from "./Cards";
 
 // Types
@@ -20,13 +19,8 @@ const AddMembers = ({ members, setMembers }: AddMembersProps) => {
   const [users, usersLoading, update, total] =
     useDocuments<TUser>("/api/users/online");
 
-  const {
-    result,
-    nextPage,
-    submittedValue,
-    total: totalSearch,
-    ...search
-  } = useSearch<TUser>("users");
+  const [[result, submittedValue, nextPage, totalSearch], search] =
+    useSearch<TUser>("users");
 
   const [showSearch, setShowSearch] = useState(false);
   const showUsersFromSearch = showSearch && submittedValue;
@@ -93,14 +87,9 @@ const AddMembers = ({ members, setMembers }: AddMembersProps) => {
           )}
           {usersToDisplay.length === 0 &&
             (showUsersFromSearch ? (
-              <p className="text-tcolor text-center mt-4">
-                No results for{" "}
-                <span className="bg-accent/5 italic text-tcolor-2">
-                  {submittedValue}
-                </span>
-              </p>
+              <NoResult value={submittedValue} />
             ) : (
-              <p className="text-tcolor text-center mt-4">
+              <p className="mt-4 text-center text-tcolor">
                 No one is online now. Try searching
               </p>
             ))}
