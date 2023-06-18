@@ -5,20 +5,21 @@ import { HiLogout } from "react-icons/hi";
 
 import Image from "@/components/Image";
 import NavButton from "./NavButton";
-import getUserPhoto from "@/utils/getUerPhoto";
+import getUserPhoto from "@/utils/getPhoto";
 import { useUserContext } from "@/context/UserContext";
 import { Tap } from "../types";
 
 interface Props {
   activeTap: Tap;
   setActiveTap: (tap: Tap) => void;
+  onlineUsers: number;
 }
 
-const Navbar = ({ activeTap, setActiveTap }: Props) => {
+const Navbar = ({ activeTap, setActiveTap, onlineUsers }: Props) => {
   const { user } = useUserContext();
 
   return (
-    <nav className="absolute bottom-0 left-0 z-10 flex w-full justify-evenly overflow-hidden rounded-tl-2xl rounded-tr-2xl bg-bcolor lg:relative lg:w-fit lg:flex-col lg:items-center lg:justify-start  lg:rounded-br-[2rem] lg:rounded-tl-none lg:rounded-tr-[2rem] lg:py-8">
+    <nav className="absolute bottom-0 left-0 z-10 flex w-full shrink-0 justify-evenly overflow-hidden rounded-tl-2xl rounded-tr-2xl bg-bcolor lg:relative lg:w-fit lg:flex-col lg:items-center lg:justify-start  lg:rounded-br-[2rem] lg:rounded-tl-none lg:rounded-tr-[2rem] lg:py-8">
       <NavButton
         onClick={() => setActiveTap("profile")}
         active={activeTap === "profile"}
@@ -47,11 +48,9 @@ const Navbar = ({ activeTap, setActiveTap }: Props) => {
       >
         <HiUsers size={28} />
         <span
-          className={`absolute bottom-2 right-4 px-1 py-px ${
-            user!.isOnline ? "bg-green-500" : "bg-green-200"
-          } rounded-full text-xs text-white`}
+          className={`absolute bottom-2 right-4 h-5 min-w-[1.25rem] rounded-full bg-green-500 px-1 text-center text-xs leading-5 text-tcolor`}
         >
-          22
+          {onlineUsers > 99 ? "+99" : onlineUsers}
         </span>
       </NavButton>
       <NavButton
