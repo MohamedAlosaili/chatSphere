@@ -31,7 +31,7 @@ const RoomCard = ({ room }: { room: TRoom }) => {
         <h3 className="truncate font-medium text-tcolor">{room.name}</h3>
         <LastMessage lastMessage={room.lastMessage} />
       </div>
-      <div className="flex max-w-[4rem] flex-col items-center justify-center gap-2 text-xs">
+      <div className="flex max-w-[4rem] flex-col items-end justify-center gap-2 text-xs">
         <div>{relativeTime(room.updatedAt)}</div>
         {unreadMessages > 0 && (
           <div className="h-5 min-w-[1.25rem] rounded-full bg-accent px-1 text-center leading-5 text-tcolor">
