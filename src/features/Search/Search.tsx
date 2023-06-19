@@ -10,9 +10,16 @@ interface SearchProps
     Partial<ComponentProps<"form">> {
   onSubmit: (e: FormEvent) => void;
   loading: boolean;
+  result: number;
 }
 
-const Search = ({ value, setValue, loading, ...props }: SearchProps) => {
+const Search = ({
+  value,
+  setValue,
+  loading,
+  result,
+  ...props
+}: SearchProps) => {
   return (
     <form
       className={twMerge(`relative text-tcolor`, props.className)}
@@ -22,12 +29,13 @@ const Search = ({ value, setValue, loading, ...props }: SearchProps) => {
         type="search"
         name="search"
         value={value}
+        disabled={loading}
         setValue={setValue}
         placeholder={props.placeholder ? props.placeholder : "Search..."}
         className="pr-10 focus:border-accent/75  focus:bg-accent/5"
       />
       <div className="absolute right-4 top-1/2 -translate-y-1/2 text-accent">
-        {loading ? (
+        {loading && result === 0 ? (
           <CgSpinner className="animate-[spin_0.5s_linear_infinite;] text-2xl" />
         ) : (
           <ImSearch />
