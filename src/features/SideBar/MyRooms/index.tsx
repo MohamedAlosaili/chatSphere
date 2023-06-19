@@ -1,6 +1,8 @@
 import { BsWind } from "react-icons/bs";
 
+import { useUserContext } from "@/context/UserContext";
 import useDocuments from "@/hooks/useDocuments";
+import useSocketListener from "@/hooks/useSocketListener";
 import Search, { useSearch, NoResult } from "@/features/Search";
 import RoomCard from "./RoomCard";
 import Button from "@/components/Button";
@@ -16,10 +18,12 @@ interface MyRoomsProps {
 }
 
 const MyRooms = ({ setActiveTap }: MyRoomsProps) => {
+  const { user } = useUserContext();
   const [rooms, loading, update, total] =
     useDocuments<TRoom>("/api/rooms/joined");
   const [[result, searchValue, nextPage, totalSearch], search] =
     useSearch<TRoom>("rooms/joined");
+  useSocketListener(user!._id, update);
 
   return (
     <div>
@@ -35,7 +39,7 @@ const MyRooms = ({ setActiveTap }: MyRoomsProps) => {
           <>
             {result.length > 0 ? (
               <>
-                {result.map(room => (
+                {result.map((room, idx) => (
                   <RoomCard key={room._id} room={room} />
                 ))}
                 {totalSearch > result.length && (
