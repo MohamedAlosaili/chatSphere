@@ -8,21 +8,21 @@ import { MutableRefObject } from "react";
 
 interface Options extends AxiosRequestConfig {
   errorMessage?: string;
-  initialLoading?: boolean;
+  limitToLast?: boolean;
 }
 
 type UseDocuments<T> = [T[], boolean, (nextPage?: boolean) => void, number];
 
 const useDocuments = <T>(
   url: string,
-  { initialLoading = true, errorMessage, ...options }: Options = {}
+  { errorMessage, limitToLast, ...options }: Options = {}
 ): UseDocuments<T> => {
   const response: MutableRefObject<FetcherResponse<T[]> | undefined> = useRef();
   const [result, setResult] = useState<T[]>([]);
-  const [loading, setLoading] = useState(initialLoading);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    initialLoading && fetchDocuments();
+    fetchDocuments();
   }, []);
 
   const fetchDocuments = async (page: number = 1) => {
@@ -36,7 +36,11 @@ const useDocuments = <T>(
     setLoading(false);
     if (res.success && res.data) {
       if (page > 1) {
-        setResult(prevResult => [...prevResult, ...res.data]);
+        if (limitToLast) {
+          setResult(prevResult => [...res.data, ...prevResult]);
+        } else {
+          setResult(prevResult => [...prevResult, ...res.data]);
+        }
       } else {
         setResult(res.data);
       }
@@ -55,7 +59,7 @@ const useDocuments = <T>(
       page = res.pagination.page + 1;
     }
 
-    fetchDocuments(page);
+    if (result.length < (response.current?.total ?? 0)) fetchDocuments(page);
   };
 
   return [result, loading, update, response.current?.total ?? 0];
