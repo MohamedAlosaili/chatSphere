@@ -7,7 +7,7 @@ import { FetcherResponse, fetcher } from "@/lib/fetcher";
 import { FormEvent, Dispatch, SetStateAction } from "react";
 import { IndexSignature } from "@/types";
 
-type Route = "users" | "rooms";
+type Route = "users" | "rooms" | "rooms/joined";
 
 interface SearchType {
   value: string;
