@@ -11,7 +11,7 @@ import { TRoom } from "@/types";
 
 const RoomCard = ({ room }: { room: TRoom }) => {
   const { activeRoom, changeRoom } = useRoomContext();
-  const unreadMessages = useUnreadMessages(room._id);
+  const unreadMessages = useUnreadMessages(room._id, room.updatedAt);
 
   const isActive = activeRoom?._id === room._id;
 
@@ -33,7 +33,7 @@ const RoomCard = ({ room }: { room: TRoom }) => {
       </div>
       <div className="flex max-w-[4rem] flex-col items-end justify-center gap-2 text-xs">
         <div>{relativeTime(room.updatedAt)}</div>
-        {unreadMessages > 0 && (
+        {unreadMessages > 0 && !isActive && (
           <div className="h-5 min-w-[1.25rem] rounded-full bg-accent px-1 text-center leading-5 text-tcolor">
             {unreadMessages > 99 ? "+99" : unreadMessages}
           </div>
