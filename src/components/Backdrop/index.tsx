@@ -8,7 +8,7 @@ const opacityVariants = {
 
 interface Props {
   onClick: MouseEventHandler;
-  children: ReactNode;
+  children?: ReactNode;
 }
 
 const Backdrop = ({ onClick, children }: Props) => (
