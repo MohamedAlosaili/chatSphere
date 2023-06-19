@@ -2,6 +2,7 @@ import React, { PropsWithChildren, useContext, useState } from "react";
 
 // Types
 import { TRoom } from "@/types";
+import { fetcher } from "@/lib/fetcher";
 
 interface TRoomContext {
   activeRoom: TRoom | null;
@@ -18,12 +19,18 @@ const RoomContext = React.createContext<TRoomContext>({
 const RoomContextProvider = ({ children }: PropsWithChildren) => {
   const [activeRoom, setActiveRoom] = useState<TRoom | null>(null);
 
-  const changeRoom = (room: TRoom) => {
+  const changeRoom = async (room: TRoom) => {
+    activeRoom?._id && (await updateUnreadMessages(activeRoom._id));
     setActiveRoom(room);
   };
 
-  const resetRoom = () => {
+  const resetRoom = async () => {
+    activeRoom?._id && (await updateUnreadMessages(activeRoom._id));
     setActiveRoom(null);
+  };
+
+  const updateUnreadMessages = async (roomId: string) => {
+    await fetcher(`/api/rooms/${roomId}/messages/unread`, { method: "POST" });
   };
 
   return (
