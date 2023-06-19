@@ -4,10 +4,16 @@ import scrollStyle from "./scrollable.module.scss";
 const Scrollable = ({
   className,
   children,
+  hide,
   ...props
-}: ComponentProps<"div">) => {
+}: ComponentProps<"div"> & { hide?: boolean }) => {
   return (
-    <div {...props} className={scrollStyle.scrollable + " " + className}>
+    <div
+      {...props}
+      className={
+        scrollStyle[`scrollable${hide ? "--hide" : ""}`] + " " + className
+      }
+    >
       {children}
     </div>
   );

@@ -1,5 +1,4 @@
 .scrollable {
-  /* TODO: Add accent color */
   --accent-color: 107 138 253;
 
   height: 100%;
@@ -8,21 +7,24 @@
   scrollbar-width: thin;
   scrollbar-color: rgb(var(--accent-color, 0 0 0) / 0.5) transparent;
 
-  /* Hide an only show in hover */
-  -webkit-mask-image: linear-gradient(to top, transparent, black),
-    linear-gradient(to left, transparent 10px, black 10px);
-  mask-image: linear-gradient(to top, transparent, black),
-    linear-gradient(to left, transparent 10px, black 10px);
-  -webkit-mask-size: 100% 20000px;
-  mask-size: 100% 20000px;
-  -webkit-mask-position: left bottom;
-  mask-position: left bottom;
+  &--hide {
+    @extend .scrollable;
+    /* Hide an only show in hover */
+    -webkit-mask-image: linear-gradient(to top, transparent, black),
+      linear-gradient(to left, transparent 10px, black 10px);
+    mask-image: linear-gradient(to top, transparent, black),
+      linear-gradient(to left, transparent 10px, black 10px);
+    -webkit-mask-size: 100% 20000px;
+    mask-size: 100% 20000px;
+    -webkit-mask-position: left bottom;
+    mask-position: left bottom;
 
-  transition: mask-position 0.3s, -webkit-mask-position 0.3s;
+    transition: mask-position 0.3s, -webkit-mask-position 0.3s;
 
-  &:hover {
-    -webkit-mask-position: left top;
-    mask-position: left top;
+    &:hover {
+      -webkit-mask-position: left top;
+      mask-position: left top;
+    }
   }
 
   &::-webkit-scrollbar {
