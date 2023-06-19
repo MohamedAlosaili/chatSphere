@@ -29,7 +29,7 @@ const Users = ({ online, toggleCreateRoomModal }: UsersProps) => {
     <div>
       <Search
         placeholder="Search in users..."
-        results={result.length}
+        result={result.length}
         {...search}
       />
       {searchValue ? (
