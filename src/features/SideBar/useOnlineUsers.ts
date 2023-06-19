@@ -1,6 +1,5 @@
-import { useEffect } from "react";
-
 import useDocuments from "@/hooks/useDocuments";
+import useSocketListener from "@/hooks/useSocketListener";
 
 // Types
 import { TUser } from "@/types";
@@ -8,10 +7,7 @@ import { TUser } from "@/types";
 const useOnlineUsers = () => {
   const [users, loading, update, total] =
     useDocuments<TUser>("/api/users/online");
-
-  useEffect(() => {
-    // TODO: Add listener and cleaner for online socket event
-  }, []);
+  useSocketListener("update online", update);
 
   return { users, loading, update, total };
 };
