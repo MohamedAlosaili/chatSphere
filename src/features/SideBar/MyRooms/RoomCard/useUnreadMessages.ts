@@ -1,16 +1,17 @@
 import { useEffect, useState } from "react";
 
+import { useRoomContext } from "@/context/RoomContext";
 import { fetcher } from "@/lib/fetcher";
 
-const useUnreadMessages = (roomId: string, key: string) => {
+const useUnreadMessages = (roomId: string, roomUpdatedAt: string) => {
+  const { activeRoom } = useRoomContext();
   const [unreadMessages, setUnreadMessages] = useState(0);
 
-  // TODO: update useEffect here - find a better way
   useEffect(() => {
     fetcher(`/api/rooms/${roomId}/messages/unread`).then(res => {
       setUnreadMessages(res.data?.unreadMessages ?? 0);
     });
-  }, [key]);
+  }, [roomUpdatedAt, activeRoom?._id]);
 
   return unreadMessages;
 };
