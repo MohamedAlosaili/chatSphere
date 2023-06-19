@@ -68,7 +68,13 @@ const AddMembers = ({ members, setMembers }: AddMembersProps) => {
           {showSearch ? "Hide Search" : "Show Search"}
         </Button>
       </h3>
-      {showSearch && <Search placeholder="Search in users..." {...search} />}
+      {showSearch && (
+        <Search
+          placeholder="Search in users..."
+          result={result.length}
+          {...search}
+        />
+      )}
 
       <div className="h-40 rounded-xl border-2 border-accent/20 p-2">
         <Scrollable>
