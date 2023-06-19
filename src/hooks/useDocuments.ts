@@ -59,7 +59,9 @@ const useDocuments = <T>(
       page = res.pagination.page + 1;
     }
 
-    if (result.length < (response.current?.total ?? 0)) fetchDocuments(page);
+    if (nextPage && !(result.length < (response.current?.total ?? 0))) return;
+
+    fetchDocuments(page);
   };
 
   return [result, loading, update, response.current?.total ?? 0];
