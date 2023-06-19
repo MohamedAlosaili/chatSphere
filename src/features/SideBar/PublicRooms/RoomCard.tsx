@@ -33,7 +33,7 @@ const RoomCard = ({ room, setActiveTap }: RoomCardProps) => {
     setLoading(false);
 
     if (res.success) {
-      toast.success(res.message ?? "Joined");
+      toast.success(`Joined to ${room.name}`);
       changeRoom(room);
       setActiveTap("my rooms");
     } else {
