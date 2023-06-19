@@ -4,30 +4,30 @@ import React, { PropsWithChildren, useContext, useState } from "react";
 import { TRoom } from "@/types";
 
 interface TRoomContext {
-  room: TRoom | null;
+  activeRoom: TRoom | null;
   changeRoom: (room: TRoom) => void;
   resetRoom: () => void;
 }
 
 const RoomContext = React.createContext<TRoomContext>({
-  room: null,
+  activeRoom: null,
   changeRoom: () => null,
   resetRoom: () => null,
 });
 
 const RoomContextProvider = ({ children }: PropsWithChildren) => {
-  const [room, setRoom] = useState<TRoom | null>(null);
+  const [activeRoom, setActiveRoom] = useState<TRoom | null>(null);
 
   const changeRoom = (room: TRoom) => {
-    setRoom(room);
+    setActiveRoom(room);
   };
 
   const resetRoom = () => {
-    setRoom(null);
+    setActiveRoom(null);
   };
 
   return (
-    <RoomContext.Provider value={{ room, changeRoom, resetRoom }}>
+    <RoomContext.Provider value={{ activeRoom, changeRoom, resetRoom }}>
       {children}
     </RoomContext.Provider>
   );
