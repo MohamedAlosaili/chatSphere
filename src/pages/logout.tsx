@@ -4,7 +4,7 @@ import { removeTokenCookie } from "@/lib/authCookies";
 //  Types
 import { ServerResponse } from "http";
 
-const Logout = () => false;
+const Logout = () => <div></div>;
 
 export const getServerSideProps = ({ res }: { res: ServerResponse }) => {
   try {
