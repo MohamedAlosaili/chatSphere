@@ -25,7 +25,7 @@ const MyRooms = ({ setActiveTap }: MyRoomsProps) => {
     <div>
       <Search
         placeholder="Search in my rooms..."
-        results={result.length}
+        result={result.length}
         {...search}
       />
       {searchValue ? (
