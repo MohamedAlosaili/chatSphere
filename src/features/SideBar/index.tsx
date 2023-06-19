@@ -52,7 +52,12 @@ const Sidebar = () => {
       case "my rooms":
         return <MyRooms setActiveTap={setActiveTap} />;
       case "public rooms":
-        return <PublicRooms toggleCreateRoomModal={toggleCreateRoomModal} />;
+        return (
+          <PublicRooms
+            toggleCreateRoomModal={toggleCreateRoomModal}
+            setActiveTap={setActiveTap}
+          />
+        );
       case "users":
         return (
           <Users
@@ -80,7 +85,7 @@ const Sidebar = () => {
           animate="visible"
           className="h-[calc(100%-50px)] flex-1 pr-1"
         >
-          <Scrollable className="h-full w-full px-4 py-8 pr-2">
+          <Scrollable hide className="h-full w-full px-4 py-8 pr-2">
             <Suspense fallback={""}>{currentTap(activeTap)}</Suspense>
           </Scrollable>
         </motion.div>
