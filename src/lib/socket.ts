@@ -9,4 +9,4 @@ if (!URL) {
   throw new Error("Missing SOCKET_URL in the environment variables");
 }
 
-export const socket = io("http://localhost:5000");
+export const socket = io(URL);
