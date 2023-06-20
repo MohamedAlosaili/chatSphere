@@ -8,6 +8,7 @@ import Button from "@/components/Button";
 import Image from "@/components/Image";
 import getRoomPhoto from "@/utils/getPhoto";
 import { fetcher } from "@/lib/fetcher";
+import { socket } from "@/lib/socket";
 
 // Types
 import { Dispatch, SetStateAction } from "react";
@@ -36,6 +37,7 @@ const RoomCard = ({ room, setActiveTap }: RoomCardProps) => {
       toast.success(`Joined to ${room.name}`);
       changeRoom(room);
       setActiveTap("my rooms");
+      socket.emit("new message", room._id);
     } else {
       toast.error("Failed to join this room");
     }
