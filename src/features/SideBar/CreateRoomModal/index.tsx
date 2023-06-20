@@ -8,6 +8,7 @@ import Button from "@/components/Button";
 import Modal from "@/components/Modal";
 import { useRoomContext } from "@/context/RoomContext";
 import { fetcher } from "@/lib/fetcher";
+import { socket } from "@/lib/socket";
 
 // Types
 import { TRoom, TUser } from "@/types";
@@ -67,6 +68,7 @@ const CreateNewRoomModal = ({
       toast.success(res.message ?? "New Room created");
       changeRoom(res.data);
       close({ redirect: true });
+      socket.emit("new message", res.data._id);
     } else {
       toast.error("Failed to create new room");
     }
