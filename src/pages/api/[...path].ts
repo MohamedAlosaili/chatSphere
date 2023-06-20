@@ -5,7 +5,7 @@ import { getTokenCookie } from "@/lib/authCookies";
 import { API_URL } from "@/config";
 
 const target = API_URL;
-const proxy = httpProxy.createProxyServer({ target });
+const proxy = httpProxy.createProxyServer({ target, changeOrigin: true });
 
 export const config = {
   api: {
