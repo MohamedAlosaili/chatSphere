@@ -4,7 +4,7 @@ import httpProxy from "http-proxy";
 import { getTokenCookie } from "@/lib/authCookies";
 import { API_URL } from "@/config";
 
-const target = process.env.PROD_API_URL;
+const target = API_URL;
 const proxy = httpProxy.createProxyServer({ target });
 
 export const config = {
@@ -24,11 +24,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       req.headers.authorization = `Bearer ${token}`;
     }
 
-    proxy.once("error", err => {
-      console.log("http-proxy ERROR:");
-      console.log(err);
-      return reject(err);
-    });
+    proxy.once("error", reject);
 
     proxy.web(req, res);
   });
