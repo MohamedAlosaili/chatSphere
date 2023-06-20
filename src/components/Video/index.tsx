@@ -43,10 +43,10 @@ const Video = ({
       {loading && <SkeletonLoader className={className} />}
       {error && (
         <div className="relative z-50 flex h-full w-full flex-col items-center justify-center gap-1 bg-accent/25">
-          <button onClick={reload} className="relative">
+          <div onClick={reload} className="relative">
             <TbFaceIdError className="text-[1.5em]" />
             <AiOutlineReload className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 scale-150 transform text-[2em]" />
-          </button>
+          </div>
         </div>
       )}
       <video

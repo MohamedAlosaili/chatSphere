@@ -1,4 +1,4 @@
-import { StyleHTMLAttributes, useState } from "react";
+import { StyleHTMLAttributes, useState, MouseEventHandler } from "react";
 import { twMerge } from "tailwind-merge";
 
 import { TbFaceIdError } from "react-icons/tb";
@@ -18,7 +18,8 @@ function Image({ src, alt, className = "", style }: Props) {
   const [error, setError] = useState(false);
   const [reloadNum, setReloadNum] = useState(0);
 
-  const reload = () => {
+  const reload: MouseEventHandler<HTMLDivElement> = e => {
+    e.stopPropagation();
     setLoading(true);
     setError(false);
     setReloadNum(prevNum => prevNum + 1);
@@ -42,15 +43,15 @@ function Image({ src, alt, className = "", style }: Props) {
       {loading && <SkeletonLoader className={className} />}
       {error && (
         <div className="flex h-full w-full flex-col items-center justify-center gap-1">
-          <button
-            onClick={() => (reloadNum < 3 ? reload() : null)}
+          <div
+            onClick={reloadNum < 3 ? reload : undefined}
             className="relative"
           >
             <TbFaceIdError className="text-[1.5em]" />
             {reloadNum < 3 && (
               <AiOutlineReload className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 scale-150 transform text-[2em]" />
             )}
-          </button>
+          </div>
         </div>
       )}
       <img
