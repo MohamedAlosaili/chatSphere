@@ -1,0 +1,48 @@
+{
+  "en": {
+    "header": {
+      "title": "ChatSphere 💬",
+      "button": "Login"
+    },
+    "main": {
+      "title": "ChatSphere 💬",
+      "desciption": "Talk to you friends, family, and relatives in Real-Time. \n If you like socialing this is the right place for you discover the online users.",
+      "addition": "It is simple just enter your email",
+      "callToAction": "Try it now"
+    },
+    "features": {
+      "title": "Why ChatSphere?",
+      "features": [
+        {
+          "title": "Magic Link Login",
+          "description": "Hassle-free login with a magic link sent to your email. No passwords to remember or reset. Simply click the link and access your account securely",
+          "icon": "magic"
+        },
+        {
+          "title": "Online User Indicator",
+          "description": "See who's online and who's offline in real-time. Easily identify when users are available for chat and stay connected",
+          "icon": "online"
+        },
+        {
+          "title": "Room Chats",
+          "description": "Start new chat rooms effortlessly. Whether it's private, or public, create and customize your own rooms",
+          "icon": "chat"
+        },
+        {
+          "title": "Media Sharing",
+          "description": "Share memorable moments with room members. Exchange images, videos, and texts within chat rooms, making conversations vibrant and engaging",
+          "icon": "media"
+        },
+        {
+          "title": "Room Management",
+          "description": "Take control of your chat rooms. Add or remove members, update room details, and ensure a seamless chat experience tailored to your needs",
+          "icon": "manage"
+        }
+      ]
+    },
+    "login": {
+      "title": "Enter your email below to receive a secure login link",
+      "submit": "Get login link"
+    }
+  }
+}
