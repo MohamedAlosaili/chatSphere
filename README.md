@@ -52,7 +52,7 @@ Experience seamless real-time messaging as you create and join private/public ro
 
 - Third, add the `.env.local` file in the root directory with these variables
 
-```
+```bash
 # Nodejs server API
 DEV_API_URL=http://localhost:5000
 PROD_API_URL=
