@@ -14,6 +14,8 @@ import { socket } from "@/lib/socket";
 
 // Types
 import { IndexSignature } from "@/types";
+import { createPortal } from "react-dom";
+import Backdrop from "@/components/Backdrop";
 
 interface Props {
   updateMessages: (nextPage?: boolean) => void;
@@ -57,41 +59,53 @@ const Form = ({ updateMessages }: Props) => {
   };
 
   return (
-    <div className="sticky bottom-0 left-0 z-10 h-20 w-full shrink-0 border-t border-accent/25 bg-bcolor-2 p-4 text-tcolor">
-      <div className="relative mx-auto lg:max-w-[75%]">
-        <form onSubmit={sendMessage}>
-          <Input
-            inputRef={inputRef}
-            name="text"
-            value={message.text}
-            setValue={setMessage}
-            disabled={loading}
-            placeholder="Type a message..."
-            className="pr-24"
+    <>
+      <AnimatePresence>
+        {file && (
+          <Backdrop
+            onClick={() => setFile(undefined)}
+            className="absolute z-20"
           />
-          <div className="absolute right-0 top-1/2 flex -translate-y-1/2 items-center gap-2 pr-3">
-            <Button type="button" className="min-h-fit p-0">
-              <InputFile
-                accept="image, video"
-                setFile={setFile}
-                disabled={loading}
+        )}
+      </AnimatePresence>
+      <div className="sticky bottom-0 left-0 z-50 h-20 w-full shrink-0 border-t border-accent/25 bg-bcolor-2 p-4 text-tcolor">
+        <div className="relative mx-auto lg:max-w-[75%]">
+          <form onSubmit={sendMessage}>
+            <Input
+              inputRef={inputRef}
+              name="text"
+              value={message.text}
+              setValue={setMessage}
+              disabled={loading}
+              placeholder="Type a message..."
+              className="pr-24"
+            />
+            <div className="absolute right-0 top-1/2 flex -translate-y-1/2 items-center gap-2 pr-3">
+              <Button type="button" className="min-h-fit p-0">
+                <InputFile
+                  accept="image, video"
+                  setFile={setFile}
+                  disabled={loading}
+                >
+                  <TbSquareRoundedPlusFilled className="text-3xl text-tcolor" />
+                </InputFile>
+              </Button>{" "}
+              <Button
+                className="aspect-square min-h-fit w-8 p-0"
+                disabled={(!message.text.trim() && !file) || loading}
               >
-                <TbSquareRoundedPlusFilled className="text-3xl text-tcolor" />
-              </InputFile>
-            </Button>{" "}
-            <Button
-              className="aspect-square min-h-fit w-8 p-0"
-              disabled={(!message.text.trim() && !file) || loading}
-            >
-              <FiSend className="text-lg" />
-            </Button>
-          </div>
-        </form>
-        <AnimatePresence>
-          {file && <Preview file={file} setFile={setFile} loading={loading} />}
-        </AnimatePresence>
+                <FiSend className="text-lg" />
+              </Button>
+            </div>
+          </form>
+          <AnimatePresence>
+            {file && (
+              <Preview file={file} setFile={setFile} loading={loading} />
+            )}
+          </AnimatePresence>
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 
