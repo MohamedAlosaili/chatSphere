@@ -1,4 +1,4 @@
-import { TMember, TRoom, TUser } from "@/types";
+import { TMember, TUser } from "@/types";
 
 interface RoomMembers {
   roomOwner: TUser | undefined;
@@ -7,18 +7,20 @@ interface RoomMembers {
 }
 
 export const roomMembers = (
-  room: TRoom,
+  owner: string | TUser,
   members: TMember[],
   currentUser: TUser | null
 ): RoomMembers => {
-  if (!room || !currentUser) {
-    return { roomOwner: undefined, members: [], currentUserIsRoomOwner: false };
+  if (!owner || !currentUser) {
+    return {
+      roomOwner: undefined,
+      members: [],
+      currentUserIsRoomOwner: false,
+    };
   }
 
-  const roomOwnerId =
-    typeof room.roomOwner === "string" ? room.roomOwner : room.roomOwner._id;
-  const roomOwner =
-    typeof room.roomOwner === "string" ? undefined : room.roomOwner;
+  const roomOwnerId = typeof owner === "string" ? owner : owner._id;
+  const roomOwner = typeof owner === "string" ? undefined : owner;
 
   const currentUserIsRoomOwner = roomOwnerId === currentUser._id;
 
