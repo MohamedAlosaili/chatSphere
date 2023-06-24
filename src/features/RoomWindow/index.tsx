@@ -19,7 +19,7 @@ const RoomWindow = () => {
   }, [activeRoom?._id]);
 
   return (
-    <div className="absolute left-0 top-full flex items-center justify-center bg-bcolor-2 md:static">
+    <div className="absolute left-full top-0 flex items-center justify-center bg-bcolor-2 md:static">
       {/* TODO: add fallback loader */}
       <Suspense fallback={"loading..."}>
         <AnimatePresence mode="wait">
@@ -29,7 +29,7 @@ const RoomWindow = () => {
             <motion.p
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              className="m-2 rounded-xl bg-accent/20 px-3 py-2 text-tcolor"
+              className="m-2 hidden rounded-xl bg-accent/20 px-3 py-2 text-tcolor md:block"
             >
               Select a room to start messaging...
             </motion.p>
