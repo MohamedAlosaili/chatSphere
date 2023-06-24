@@ -14,14 +14,9 @@ import { socket } from "@/lib/socket";
 
 // Types
 import { IndexSignature } from "@/types";
-import { createPortal } from "react-dom";
 import Backdrop from "@/components/Backdrop";
 
-interface Props {
-  updateMessages: (nextPage?: boolean) => void;
-}
-
-const Form = ({ updateMessages }: Props) => {
+const Form = () => {
   const { activeRoom } = useRoomContext();
   const [file, setFile] = useState<File>();
   const [message, setMessage] = useState<IndexSignature<string>>({ text: "" });
@@ -51,8 +46,7 @@ const Form = ({ updateMessages }: Props) => {
     if (res.success) {
       setMessage({ text: "" });
       setFile(undefined);
-      updateMessages();
-      socket.emit("new message", activeRoom?._id);
+      socket.emit("update messages", activeRoom?._id);
     } else {
       return toast.error("Failed to send a message, try again");
     }
@@ -79,6 +73,7 @@ const Form = ({ updateMessages }: Props) => {
               disabled={loading}
               placeholder="Type a message..."
               className="pr-24"
+              autoComplete="off"
             />
             <div className="absolute right-0 top-1/2 flex -translate-y-1/2 items-center gap-2 pr-3">
               <Button type="button" className="min-h-fit p-0">
