@@ -1,12 +1,25 @@
 import { useEffect } from "react";
 import { socket } from "@/lib/socket";
 
-const useSocketListener = (event: string, listener: () => void) => {
+type Event = {
+  event: string;
+  listener: () => void;
+}[];
+
+const useSocketListener = (event: string | Event, listener?: () => void) => {
   useEffect(() => {
-    socket.on(event, listener);
+    if (typeof event === "string") {
+      listener && socket.on(event, listener);
+    } else {
+      event.forEach(event => socket.on(event.event, event.listener));
+    }
 
     return () => {
-      socket.off(event, listener);
+      if (typeof event === "string") {
+        socket.off(event, listener);
+      } else {
+        event.forEach(event => socket.off(event.event, event.listener));
+      }
     };
   }, []);
 };
