@@ -1,4 +1,4 @@
-import { lazy, Suspense, ComponentType } from "react";
+import { lazy, Suspense, useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 
 import { useRoomContext } from "@/context/RoomContext";
@@ -12,10 +12,14 @@ const Chat = lazy(() => import("./Chat"));
 // };
 
 const RoomWindow = () => {
-  const { activeRoom } = useRoomContext();
+  const { activeRoom, updateRoom } = useRoomContext();
+
+  useEffect(() => {
+    if (activeRoom?._id) updateRoom();
+  }, [activeRoom?._id]);
 
   return (
-    <div className="absolute left-full top-0 flex items-center justify-center bg-bcolor-2 md:static">
+    <div className="absolute left-0 top-full flex items-center justify-center bg-bcolor-2 md:static">
       {/* TODO: add fallback loader */}
       <Suspense fallback={"loading..."}>
         <AnimatePresence mode="wait">
