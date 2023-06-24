@@ -20,6 +20,13 @@ export interface TRoom extends TDocument {
   moderators: string[];
 }
 
+export interface TMember extends TDocument {
+  _id: string;
+  memberId: TUser;
+  unreadMessages: number;
+  roomId: string;
+}
+
 export interface TMessage extends TDocument {
   type: "announcement" | "text" | "file";
   senderId?: Omit<TUser, "email">;
