@@ -49,9 +49,9 @@ const RoomInfo = ({ toggleRoomInfo }: RoomInfoProps) => {
           <Image
             src={getRoomPhoto(room.photo)}
             alt={`${room.name} photo`}
-            className="mx-auto aspect-square h-auto w-32 rounded-2xl"
+            className="mx-auto aspect-square h-auto w-32 shrink-0 rounded-2xl"
           />
-          <h2 className="truncate text-center text-2xl font-medium">
+          <h2 className="shrink-0 truncate text-center text-2xl font-medium">
             {room.name}
           </h2>
           <Members room={room}>
