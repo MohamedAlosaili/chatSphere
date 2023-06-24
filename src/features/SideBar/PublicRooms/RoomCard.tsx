@@ -37,7 +37,7 @@ const RoomCard = ({ room, setActiveTap }: RoomCardProps) => {
       toast.success(`Joined to ${room.name}`);
       changeRoom(room);
       setActiveTap("my rooms");
-      socket.emit("new message", room._id);
+      socket.emit("update messages", room._id);
     } else {
       toast.error("Failed to join this room");
     }

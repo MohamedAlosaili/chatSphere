@@ -68,7 +68,7 @@ const CreateNewRoomModal = ({
       toast.success(res.message ?? "New Room created");
       changeRoom(res.data);
       close({ redirect: true });
-      socket.emit("new message", res.data._id);
+      socket.emit("update messages", res.data._id);
     } else {
       toast.error("Failed to create new room");
     }
