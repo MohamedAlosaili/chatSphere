@@ -23,7 +23,16 @@ const useLeaveRoom = (room: TRoom) => {
     setLoading(false);
     if (res.success) {
       resetRoom();
+
+      if (
+        typeof room.roomOwner !== "string" &&
+        room?.roomOwner._id === user?._id
+      ) {
+        socket.emit("update room", room._id, "leave");
+      }
+
       socket.emit("update messages", room._id, user?._id);
+
       toast.success(`Successfully left from ${room.name ?? "the room"}`);
     } else {
       toast.error("Failed to leave the room, try again later.");
