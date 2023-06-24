@@ -1,37 +1,55 @@
-import { useRef, useEffect } from "react";
-import { motion } from "framer-motion";
+import { useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 
 import useDocuments from "@/hooks/useDocuments";
+import useSocketListener from "@/hooks/useSocketListener";
 import { useRoomContext } from "@/context/RoomContext";
 import Conversation from "./Conversation";
 import Form from "./Form";
 import Header from "./Header";
-import { socket } from "@/lib/socket";
+import RoomInfo from "./RoomInfo";
 
 // Types
 import { TMessage } from "@/types";
 
 const Chat = () => {
-  const { activeRoom } = useRoomContext();
-  const roomRef = useRef(activeRoom!);
-  const [messages, , update, total] = useDocuments<TMessage>(
+  const { activeRoom, updateRoom } = useRoomContext();
+  const [messages, , updateMessages, total] = useDocuments<TMessage>(
     `/api/rooms/${activeRoom?._id}/messages?sort=createdAt`,
     { limitToLast: true }
   );
 
-  useEffect(() => {
-    socket.on(`room-${activeRoom?._id}`, update);
-    return () => {
-      socket.off(`room-${activeRoom?._id}`, update);
-    };
-  }, []);
+  useSocketListener([
+    { event: `room-${activeRoom?._id} messages`, listener: updateMessages },
+    { event: `room-${activeRoom?._id} info`, listener: updateRoom },
+  ]);
+
+  const [showRoomInfo, setShowRoomInfo] = useState(false);
+
+  const toggleRoomInfo = () => {
+    setShowRoomInfo(prev => !prev);
+  };
 
   return (
-    <div className="absolute left-0 top-0 z-10 flex h-screen w-full flex-col bg-bcolor-2 md:relative">
-      <Header room={roomRef.current} />
-      <Conversation messages={messages} updateMessages={update} total={total} />
-      <Form updateMessages={update} />
-    </div>
+    <motion.div
+      initial={{ left: "100%", opacity: 0 }}
+      animate={{ left: 0, opacity: 1 }}
+      exit={{ left: "100%", opacity: 0 }}
+      className="fixed left-0 top-0 z-10 h-screen w-full bg-bcolor-2 md:static"
+    >
+      <div className="relative flex h-full w-full flex-col ">
+        <Header toggleRoomInfo={toggleRoomInfo} />
+        <Conversation
+          messages={messages}
+          updateMessages={updateMessages}
+          total={total}
+        />
+        <AnimatePresence>
+          {showRoomInfo && <RoomInfo toggleRoomInfo={toggleRoomInfo} />}
+        </AnimatePresence>
+        <Form />
+      </div>
+    </motion.div>
   );
 };
 
