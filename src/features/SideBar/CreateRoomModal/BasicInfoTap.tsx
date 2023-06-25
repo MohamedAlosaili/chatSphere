@@ -1,16 +1,17 @@
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { CiSquareRemove } from "react-icons/ci";
 import { LuFileEdit } from "react-icons/lu";
 
 import Input from "@/components/Input";
 import Image from "@/components/Image";
 import InputFile from "@/components/InputFile";
+import Button from "@/components/Button";
+import getPhoto from "@/utils/getPhoto";
 import { Member } from "./Cards";
 
 // Types
 import { MutableRefObject, Dispatch, SetStateAction } from "react";
 import { IndexSignature, TUser } from "@/types";
-import Button from "@/components/Button";
 
 export interface RoomInfo {
   name: string;
@@ -24,18 +25,24 @@ interface BasicTapProps {
   members: TUser[];
   setMembers: Dispatch<SetStateAction<TUser[]>>;
   setTap: Dispatch<SetStateAction<"basic" | "members">>;
+  roomPhoto?: string;
 }
 
-const BasicTap = ({ loading, roomInfoRef, members, setMembers, setTap }: BasicTapProps) => {
+const BasicTap = ({
+  loading,
+  roomInfoRef,
+  members,
+  setMembers,
+  setTap,
+  roomPhoto,
+}: BasicTapProps) => {
   const [{ name }, setName] = useState<IndexSignature>({
     name: roomInfoRef.current.name ?? "",
   });
   const [file, setFile] = useState<File | undefined>(roomInfoRef.current.file);
   const [access, setAccess] = useState(roomInfoRef.current.private);
 
-  useEffect(() => {
-    roomInfoRef.current = { name, file, private: access };
-  }, [name, file, access, roomInfoRef]);
+  roomInfoRef.current = { name, file, private: access };
 
   const preview = useMemo(() => {
     return file ? URL.createObjectURL(file) : null;
@@ -73,7 +80,12 @@ const BasicTap = ({ loading, roomInfoRef, members, setMembers, setTap }: BasicTa
               />
             )}
           </div>
-          {preview && <Image src={preview} alt={`Photo preview of ${name}`} />}
+          {(preview || roomPhoto) && (
+            <Image
+              src={preview ?? getPhoto(roomPhoto ?? "")}
+              alt={`Photo preview of ${name}`}
+            />
+          )}
         </InputFile>
         <Input
           name="name"
@@ -118,7 +130,15 @@ const BasicTap = ({ loading, roomInfoRef, members, setMembers, setTap }: BasicTa
           </h3>
           <div className="flex flex-wrap gap-1">
             {members?.map(member => (
-              <Member key={member._id} member={member} updateMembers={() => setMembers(prevMembers => prevMembers.filter(m => m._id !== member._id))} />
+              <Member
+                key={member._id}
+                member={member}
+                updateMembers={() =>
+                  setMembers(prevMembers =>
+                    prevMembers.filter(m => m._id !== member._id)
+                  )
+                }
+              />
             ))}
           </div>
         </>
