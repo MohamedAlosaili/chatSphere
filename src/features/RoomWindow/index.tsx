@@ -12,11 +12,7 @@ const Chat = lazy(() => import("./Chat"));
 // };
 
 const RoomWindow = () => {
-  const { activeRoom, updateRoom } = useRoomContext();
-
-  useEffect(() => {
-    if (activeRoom?._id) updateRoom();
-  }, [activeRoom?._id]);
+  const { activeRoom } = useRoomContext();
 
   return (
     <div className="absolute left-full top-0 flex items-center justify-center bg-bcolor-2 md:static">
