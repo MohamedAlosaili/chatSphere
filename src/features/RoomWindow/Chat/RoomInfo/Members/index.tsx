@@ -10,7 +10,7 @@ import { TMember, TRoom } from "@/types";
 
 interface MembersProps {
   room: TRoom;
-  children: (currentUserIsRoomOwner: boolean) => ReactNode;
+  children: (currentUserIsRoomOwner: boolean, members: TMember[]) => ReactNode;
 }
 
 const Members = ({ room, children }: MembersProps) => {
@@ -62,7 +62,7 @@ const Members = ({ room, children }: MembersProps) => {
           )}
         </div>
       </div>
-      {children(currentUserIsRoomOwner)}
+      {children(currentUserIsRoomOwner, membersResult)}
     </>
   );
 };
