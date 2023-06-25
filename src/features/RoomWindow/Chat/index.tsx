@@ -4,6 +4,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import useDocuments from "@/hooks/useDocuments";
 import useSocketListener from "@/hooks/useSocketListener";
 import { useRoomContext } from "@/context/RoomContext";
+import { useUserContext } from "@/context/UserContext";
 import Conversation from "./Conversation";
 import Form from "./Form";
 import Header from "./Header";
@@ -13,13 +14,18 @@ import RoomInfo from "./RoomInfo";
 import { TMessage } from "@/types";
 
 const Chat = () => {
-  const { activeRoom, updateRoom } = useRoomContext();
+  const { user } = useUserContext();
+  const { activeRoom, updateRoom, resetRoom } = useRoomContext();
   const [messages, , updateMessages, total] = useDocuments<TMessage>(
     `/api/rooms/${activeRoom?._id}/messages?sort=createdAt`,
     { limitToLast: true }
   );
 
   useSocketListener([
+    {
+      event: `room-${activeRoom?._id} removed-${user?._id}`,
+      listener: () => resetRoom(true),
+    },
     { event: `room-${activeRoom?._id} messages`, listener: updateMessages },
     { event: `room-${activeRoom?._id} info`, listener: updateRoom },
   ]);
