@@ -18,22 +18,26 @@ const Header = ({ toggleRoomInfo }: HeaderProps) => {
    * animation, but at that time activeRoom will be null, so we need a variable to hold room
    * info (persistent between renders) when <Chat /> is closing and activeRoom is null.
    * */
-  const { current: room } = useRef(activeRoom!);
+  const roomRef = useRef(activeRoom!);
+
+  if (activeRoom) {
+    roomRef.current = activeRoom;
+  }
 
   return (
     <div className="sticky left-0 top-0 z-10 flex h-16 shrink-0 items-center gap-4 border-b border-accent/25 bg-bcolor-2/75 px-4 py-2">
       <button
         className="flex aspect-square w-8 items-center justify-center rounded-xl text-lg transition-colors hover:bg-bcolor/40"
-        onClick={resetRoom}
+        onClick={() => resetRoom()}
       >
         <MdOutlineArrowBackIos />
       </button>
       <Image
-        src={getRoomPhoto(room.photo ?? "")}
-        alt={`${room.name} photo`}
+        src={getRoomPhoto(roomRef.current.photo ?? "")}
+        alt={`${roomRef.current.name} photo`}
         className="aspect-square rounded-xl"
       />
-      <h3 className="font-semibold text-tcolor">{room.name}</h3>
+      <h3 className="font-semibold text-tcolor">{roomRef.current.name}</h3>
       <button
         className="ml-auto flex aspect-square w-8 items-center justify-center rounded-xl text-lg transition-colors hover:bg-bcolor/40"
         onClick={toggleRoomInfo}
