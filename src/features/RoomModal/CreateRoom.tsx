@@ -8,7 +8,7 @@ import { socket } from "@/lib/socket";
 
 /// Types
 import { TRoom, TUser } from "@/types";
-import { ToggleModalOptions } from "../types";
+import { ToggleModalOptions } from "@/features/SideBar/types";
 
 interface CreateRoomProps {
   close: (options?: ToggleModalOptions) => void;

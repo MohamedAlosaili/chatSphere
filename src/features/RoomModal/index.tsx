@@ -2,7 +2,7 @@ import { toast } from "react-toastify";
 
 // Types
 import { TMember, TRoom, TUser } from "@/types";
-import { ToggleModalOptions } from "../types";
+import { ToggleModalOptions } from "@/features/SideBar/types";
 import CreateRoom from "./CreateRoom";
 import UpdateRoom from "./UpdateRoom";
 
