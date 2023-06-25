@@ -1,5 +1,5 @@
-import { useRef } from "react";
-import { motion } from "framer-motion";
+import { useRef, useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 import { HiOutlineChatBubbleLeftRight } from "react-icons/hi2";
 import { MdOutlineArrowBackIos } from "react-icons/md";
 
@@ -10,6 +10,7 @@ import Scrollable from "@/components/Scrollable";
 import getRoomPhoto from "@/utils/getPhoto";
 import Members from "./Members";
 import Buttons from "./Buttons/index.tsx";
+import UpdateRoomModal from "@/features/SideBar/CreateRoomModal";
 
 interface RoomInfoProps {
   toggleRoomInfo: () => void;
@@ -23,7 +24,15 @@ const RoomInfo = ({ toggleRoomInfo }: RoomInfoProps) => {
    * animation, but at that time activeRoom will be null, so we need a variable to hold room
    * info (persistent between renders) when <Chat /> is closing and activeRoom is null.
    * */
-  const { current: room } = useRef(activeRoom!);
+  const roomRef = useRef(activeRoom!);
+  if (activeRoom) {
+    roomRef.current = activeRoom;
+  }
+  const [showUpdateModal, setShwoUpdateModal] = useState(false);
+
+  const toggleUpdateModal = () => {
+    setShwoUpdateModal(prev => !prev);
+  };
 
   return (
     <>
@@ -47,22 +56,34 @@ const RoomInfo = ({ toggleRoomInfo }: RoomInfoProps) => {
             </div>
           </h3>
           <Image
-            src={getRoomPhoto(room.photo)}
-            alt={`${room.name} photo`}
+            src={getRoomPhoto(roomRef.current.photo)}
+            alt={`${roomRef.current.name} photo`}
             className="mx-auto aspect-square h-auto w-32 shrink-0 rounded-2xl"
           />
           <h2 className="shrink-0 truncate text-center text-2xl font-medium">
-            {room.name}
+            {roomRef.current.name}
           </h2>
-          <Members room={room}>
-            {(currentUserIsRoomOwner: boolean) => (
-              <Buttons
-                room={room}
-                currentUserIsRoomOwner={currentUserIsRoomOwner}
-              />
+          <Members room={roomRef.current}>
+            {(currentUserIsRoomOwner, members) => (
+              <>
+                <Buttons
+                  room={roomRef.current}
+                  currentUserIsRoomOwner={currentUserIsRoomOwner}
+                  showUpdateModal={toggleUpdateModal}
+                />
+                <AnimatePresence>
+                  {showUpdateModal && (
+                    <UpdateRoomModal
+                      type="update"
+                      close={toggleUpdateModal}
+                      room={{ ...roomRef.current, members }}
+                    />
+                  )}
+                </AnimatePresence>
+              </>
             )}
           </Members>
-          <small>Created {getRoomCreatedAt(room.createdAt)}.</small>
+          <small>Created {getRoomCreatedAt(roomRef.current.createdAt)}.</small>
         </Scrollable>
       </motion.div>
     </>
