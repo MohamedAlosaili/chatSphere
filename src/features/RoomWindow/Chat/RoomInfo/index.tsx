@@ -10,7 +10,7 @@ import Scrollable from "@/components/Scrollable";
 import getRoomPhoto from "@/utils/getPhoto";
 import Members from "./Members";
 import Buttons from "./Buttons/index.tsx";
-import UpdateRoomModal from "@/features/SideBar/CreateRoomModal";
+import UpdateRoomModal from "@/features/RoomModal";
 
 interface RoomInfoProps {
   toggleRoomInfo: () => void;
