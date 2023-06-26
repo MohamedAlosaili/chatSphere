@@ -48,7 +48,7 @@ const Conversation = ({ messages, updateMessages, total }: Props) => {
   return (
     <>
       <Scrollable
-        className="bg-[url(/images/chat-bg.png)] bg-contain p-4"
+        className="bg-[url(/images/chat-bg.png)] bg-contain p-4 px-2 min-[500px]:px-4"
         onScroll={handleChatScroll}
       >
         {messages.length < total && (
@@ -76,7 +76,7 @@ const Conversation = ({ messages, updateMessages, total }: Props) => {
             onClick={() =>
               bottomRef.current?.scrollIntoView({ behavior: "smooth" })
             }
-            className="absolute bottom-24 left-4 rounded-xl bg-accent p-2 text-tcolor"
+            className="absolute bottom-24 left-4 z-30 rounded-xl bg-accent p-2 text-tcolor"
           >
             <ImArrowDown2 size={20} />
           </motion.button>
