@@ -1,3 +1,5 @@
+import { memo } from "react";
+
 import useLeaveRoom from "./useLeaveRoom";
 import Button from "@/components/Button";
 
@@ -7,15 +9,24 @@ import { TRoom } from "@/types";
 interface ButtonsProps {
   room: TRoom;
   currentUserIsRoomOwner: boolean;
+  showUpdateModal: () => void;
 }
 
-const Buttons = ({ room, currentUserIsRoomOwner }: ButtonsProps) => {
+const Buttons = ({
+  room,
+  currentUserIsRoomOwner,
+  showUpdateModal,
+}: ButtonsProps) => {
   const { leaveRoom, loading } = useLeaveRoom(room);
 
   return (
     <div className="mx-auto w-full max-w-xs">
       {currentUserIsRoomOwner && (
-        <Button className="mb-4 w-full" disabled={loading} onClick={() => null}>
+        <Button
+          className="mb-4 w-full"
+          disabled={loading}
+          onClick={showUpdateModal}
+        >
           Update Room Info
         </Button>
       )}
@@ -31,4 +42,4 @@ const Buttons = ({ room, currentUserIsRoomOwner }: ButtonsProps) => {
   );
 };
 
-export default Buttons;
+export default memo(Buttons);

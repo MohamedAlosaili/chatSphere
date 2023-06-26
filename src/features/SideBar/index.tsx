@@ -4,7 +4,7 @@ import { BiMessageSquareAdd } from "react-icons/bi";
 
 import useOnlineUsers from "./useOnlineUsers";
 import Navbar from "./Navbar";
-import CreateRoomModal from "./CreateRoomModal";
+import CreateRoomModal from "@/features/RoomModal";
 import Scrollable from "@/components/Scrollable";
 import Button from "@/components/Button";
 

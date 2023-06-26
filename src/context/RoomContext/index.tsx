@@ -1,4 +1,10 @@
-import React, { PropsWithChildren, useContext, useState } from "react";
+import React, {
+  PropsWithChildren,
+  useContext,
+  useEffect,
+  useState,
+  useRef,
+} from "react";
 
 // Types
 import { TRoom } from "@/types";
@@ -8,7 +14,7 @@ interface TRoomContext {
   activeRoom: TRoom | null;
   changeRoom: (room: TRoom) => void;
   updateRoom: () => void;
-  resetRoom: () => void;
+  resetRoom: (isUserRemoved?: boolean) => void;
 }
 
 const RoomContext = React.createContext<TRoomContext>({
@@ -20,13 +26,21 @@ const RoomContext = React.createContext<TRoomContext>({
 
 const RoomContextProvider = ({ children }: PropsWithChildren) => {
   const [activeRoom, setActiveRoom] = useState<TRoom | null>(null);
+  const userRemovedRef = useRef(false);
+
+  useEffect(() => {
+    if (activeRoom?._id) updateRoom();
+  }, [activeRoom?._id]);
 
   const changeRoom = async (room: TRoom) => {
     activeRoom?._id && (await updateUnreadMessages(activeRoom._id));
     setActiveRoom(room);
   };
 
-  const resetRoom = async () => {
+  const resetRoom = async (isUserRemoved?: boolean) => {
+    if (isUserRemoved) {
+      userRemovedRef.current = true;
+    }
     activeRoom?._id && (await updateUnreadMessages(activeRoom._id));
     setActiveRoom(null);
   };
@@ -36,10 +50,12 @@ const RoomContextProvider = ({ children }: PropsWithChildren) => {
   };
 
   const updateRoom = async () => {
-    if (activeRoom) {
+    if (activeRoom && !userRemovedRef.current) {
       await fetcher<TRoom>(`/api/rooms/${activeRoom._id}`).then(res => {
         if (res.success) setActiveRoom(res.data);
       });
+    } else {
+      userRemovedRef.current = false;
     }
   };
 

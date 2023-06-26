@@ -3,14 +3,14 @@ import { MdOutlineArrowForwardIos } from "react-icons/md";
 
 import { useUserContext } from "@/context/UserContext";
 import useDocuments from "@/hooks/useDocuments";
-import MemberCard, { MemberCardSkeletonLoader } from "./MemberCard";
+import MemberCard, { MemberCardsSkeletonLoader } from "./MemberCard";
 import { roomMembers } from "./util";
 
 import { TMember, TRoom } from "@/types";
 
 interface MembersProps {
   room: TRoom;
-  children: (currentUserIsRoomOwner: boolean) => ReactNode;
+  children: (currentUserIsRoomOwner: boolean, members: TMember[]) => ReactNode;
 }
 
 const Members = ({ room, children }: MembersProps) => {
@@ -31,8 +31,8 @@ const Members = ({ room, children }: MembersProps) => {
       <div className="flex-1">
         <h3 className="mb-2 mt-4">Members</h3>
         <div className="overflow-hidden rounded-xl bg-accent/10">
-          {loading && members.length === 0 ? (
-            <MemberCardSkeletonLoader />
+          {loading && membersResult.length === 0 ? (
+            <MemberCardsSkeletonLoader />
           ) : (
             <>
               <MemberCard
@@ -62,7 +62,7 @@ const Members = ({ room, children }: MembersProps) => {
           )}
         </div>
       </div>
-      {children(currentUserIsRoomOwner)}
+      {children(currentUserIsRoomOwner, membersResult)}
     </>
   );
 };
