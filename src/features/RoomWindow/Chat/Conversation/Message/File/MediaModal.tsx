@@ -38,13 +38,13 @@ const MediaModal = ({ type, children }: MediaModalProps) => {
   return (
     <div className="relative">
       <AnimatePresence>
-        {isOpen && <Backdrop onClick={() => null} />}
+        {isOpen && <Backdrop onClick={() => null} className="z-[100]" />}
       </AnimatePresence>
       <motion.div
         layout
         animate={
           isOpen
-            ? { zIndex: 50 }
+            ? { zIndex: 100 }
             : { zIndex: 20, transition: { zIndex: { delay: 0.3 } } }
         }
         data-isopen={isOpen}

@@ -48,24 +48,26 @@ const Conversation = ({ messages, updateMessages, total }: Props) => {
   return (
     <>
       <Scrollable
-        className="bg-[url(/images/chat-bg.png)] bg-contain p-4"
+        className="bg-[url(/images/chat-bg.png)] bg-contain p-4 px-2 min-[500px]:px-4"
         onScroll={handleChatScroll}
       >
-        {messages.length < total && (
-          <Button onClick={loadMoreMessages} className="mb-4">
-            Load more
-          </Button>
-        )}
-        <div className="w-full ">
-          {messages.map((message, idx, messages) => (
-            <Message
-              key={message._id}
-              message={message}
-              prevMessage={idx > 0 ? messages[idx - 1] : undefined}
-            />
-          ))}
+        <div className="mx-auto max-w-4xl">
+          {messages.length < total && (
+            <Button onClick={loadMoreMessages} className="mb-4">
+              Load more
+            </Button>
+          )}
+          <div className="w-full ">
+            {messages.map((message, idx, messages) => (
+              <Message
+                key={message._id}
+                message={message}
+                prevMessage={idx > 0 ? messages[idx - 1] : undefined}
+              />
+            ))}
+          </div>
+          <div ref={bottomRef} className="hello world"></div>
         </div>
-        <div ref={bottomRef} className="hello world"></div>
       </Scrollable>
       <AnimatePresence>
         {showScrollArrow && (
@@ -76,7 +78,7 @@ const Conversation = ({ messages, updateMessages, total }: Props) => {
             onClick={() =>
               bottomRef.current?.scrollIntoView({ behavior: "smooth" })
             }
-            className="absolute bottom-24 left-4 rounded-xl bg-accent p-2 text-tcolor"
+            className="absolute bottom-24 left-4 z-30 rounded-xl bg-accent p-2 text-tcolor"
           >
             <ImArrowDown2 size={20} />
           </motion.button>
