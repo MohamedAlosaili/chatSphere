@@ -1,6 +1,3 @@
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-
 import Layout from "@/components/Layout";
 import Sidebar from "@/features/SideBar";
 import RoomWindow from "@/features/RoomWindow";
@@ -23,7 +20,6 @@ const Home = ({ user }: { user: TUser }) => {
           <Sidebar />
           <RoomWindow />
         </Layout>
-        <ToastContainer limit={2} />
       </RoomContextProvider>
     </UserContextProvider>
   );
