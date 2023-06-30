@@ -1,5 +1,6 @@
-import { useState, useEffect, FormEvent } from "react";
+import { useState, FormEvent } from "react";
 import { CgSpinner } from "react-icons/cg";
+import { toast } from "react-toastify";
 
 import Input from "@/components/Input";
 import Button from "@/components/Button";
@@ -10,25 +11,9 @@ import { IndexSignature } from "@/types";
 
 import landing from "@/content/landing.json";
 
-interface Message {
-  type: "error" | "success";
-  content: string;
-}
-
 const Login = () => {
   const [sending, setSending] = useState(false);
   const [value, setValue] = useState<IndexSignature<string>>({ email: "" });
-  const [message, setMessage] = useState<Message>();
-
-  useEffect(() => {
-    if (message) {
-      if (message.type === "error") {
-        setMessage(undefined);
-      } else {
-        setTimeout(() => setMessage(undefined), 3000);
-      }
-    }
-  }, [value.email]);
 
   const content = landing["en"];
 
@@ -36,7 +21,7 @@ const Login = () => {
     e.preventDefault();
 
     if (!value.email.trim()) {
-      return setMessage({ type: "error", content: "Enter an email" });
+      return toast.error("Enter an email");
     }
 
     setSending(true);
@@ -47,17 +32,12 @@ const Login = () => {
     setSending(false);
 
     if (res.success) {
-      setMessage({
-        type: "success",
-        content: "Email has been sent successfully",
-      });
+      toast.success("Email has been sent successfully");
       setValue({ email: "" });
     } else {
-      setMessage({
-        type: "error",
-        content:
-          res.error ?? "Failed to send an email, please try again in a minute",
-      });
+      toast.error(
+        res.error ?? "Failed to send an email, please try again in a minute"
+      );
     }
   };
 
@@ -81,15 +61,6 @@ const Login = () => {
             setValue={setValue}
             className="text-tcolor"
           />
-          {message && (
-            <p
-              className={`absolute bottom-11 left-2 text-sm ${
-                message.type === "error" ? "text-rose-600" : "text-green-600"
-              }`}
-            >
-              {message.content}
-            </p>
-          )}
           <Button
             disabled={sending || value.email.trim() === ""}
             className="w-full"
