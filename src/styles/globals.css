@@ -1,3 +1,10 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer utilities {
+  *:focus {
+    outline: 2px solid rgb(107 138 253 / 0.6);
+    outline-offset: 2px;
+  }
+}
