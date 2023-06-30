@@ -1,15 +1,23 @@
+import Link from "next/link";
+
 import { propsWithMessage, redirect } from "@/utils/serverProps";
 import { getTokenCookie, setTokenCookie } from "@/lib/authCookies";
 import { signJwtToken, verifyJwtToken } from "@/lib/jwtToken";
+import Button from "@/components/Button";
 
 // Types
 import { GetServerSidePropsContext } from "next";
 
-const Verify = ({ message }: { message: string }) => {
+const Verify = () => {
   return (
-    <div>
-      <h2>{message}</h2>
-      {/* Inform message if the authentication failed */}
+    <div className="h-screen bg-accent/5 p-4 pt-16 text-white">
+      <div className="mx-auto flex max-w-md flex-col gap-4 rounded-xl bg-accent/10 px-4 py-8 text-center">
+        <h1 className="text-2xl font-bold">Failed to authenticate</h1>
+        <p>Either the link is invalid or it is expired</p>
+        <Link href="/landing#login">
+          <Button>Request A new Link</Button>
+        </Link>
+      </div>
     </div>
   );
 };
