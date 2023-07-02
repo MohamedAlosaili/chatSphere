@@ -20,22 +20,24 @@ const Navbar = ({ activeTap, setActiveTap, onlineUsers }: Props) => {
   const { user } = useUserContext();
 
   return (
-    <nav className="absolute bottom-0 left-0 z-10 flex w-full shrink-0 justify-evenly rounded-tl-2xl rounded-tr-2xl bg-bcolor lg:relative lg:w-fit lg:flex-col lg:items-center lg:justify-start  lg:rounded-br-[2rem] lg:rounded-tl-none lg:rounded-tr-[2rem] lg:py-8">
+    <nav className="absolute bottom-0 left-0 z-10 flex w-full shrink-0 justify-evenly overflow-hidden rounded-tl-2xl rounded-tr-2xl bg-bcolor lg:relative lg:w-fit lg:flex-col lg:items-center lg:justify-start lg:overflow-visible lg:rounded-br-[2rem] lg:rounded-tl-none lg:rounded-tr-[2rem] lg:py-8">
       <NavButton
         toolTipText="Profile"
         onClick={() => setActiveTap("profile")}
         active={activeTap === "profile"}
       >
-        <Image
-          src={getUserPhoto(user!.photo)}
-          alt={`${user?.username} photo`}
-          className={`aspect-square w-8 rounded-2xl lg:w-12`}
-        />
-        <span
-          className={`absolute bottom-4 right-4 aspect-square w-3 ${
-            user!.isOnline ? "bg-green-500" : "bg-green-200"
-          } rounded-full text-white`}
-        ></span>
+        <div className="relative">
+          <Image
+            src={getUserPhoto(user!.photo)}
+            alt={`${user?.username} photo`}
+            className={`aspect-square w-8 rounded-2xl lg:w-12`}
+          />
+          <span
+            className={`absolute bottom-0 right-0 aspect-square w-3 ${
+              user!.isOnline ? "bg-green-500" : "bg-green-200"
+            } rounded-full text-white`}
+          ></span>
+        </div>
       </NavButton>
       <div className="my-4 hidden h-1 w-3/4 rounded-full bg-accent/25 lg:block"></div>
       <NavButton
@@ -50,12 +52,14 @@ const Navbar = ({ activeTap, setActiveTap, onlineUsers }: Props) => {
         onClick={() => setActiveTap("users")}
         active={activeTap === "users"}
       >
-        <HiUsers size={28} />
-        <span
-          className={`absolute bottom-2 right-4 h-5 min-w-[1.25rem] rounded-full bg-green-500 px-1 text-center text-xs leading-5 text-tcolor`}
-        >
-          {onlineUsers > 99 ? "+99" : onlineUsers}
-        </span>
+        <div className="relative">
+          <HiUsers size={28} />
+          <span
+            className={`absolute -bottom-2 -right-2 h-5 min-w-[1.25rem] rounded-full bg-green-500 px-1 text-center text-xs leading-5 text-tcolor`}
+          >
+            {onlineUsers > 99 ? "+99" : onlineUsers}
+          </span>
+        </div>
       </NavButton>
       <NavButton
         toolTipText="Public Rooms"
