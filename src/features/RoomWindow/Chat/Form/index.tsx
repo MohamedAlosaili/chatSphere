@@ -74,6 +74,8 @@ const Form = () => {
               placeholder="Type a message..."
               className="pr-24"
               autoComplete="off"
+              enterKeyHint="send"
+              autoCapitalize="sentences"
             />
             <div className="absolute right-0 top-1/2 flex -translate-y-1/2 items-center gap-2 pr-3">
               <Button type="button" className="min-h-fit p-0">

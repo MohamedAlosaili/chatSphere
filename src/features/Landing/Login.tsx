@@ -58,6 +58,7 @@ const Login = () => {
             placeholder="example@gmail.com"
             required
             value={value.email}
+            enterKeyHint="send"
             setValue={setValue}
             className="text-tcolor"
           />

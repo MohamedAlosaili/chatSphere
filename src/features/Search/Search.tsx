@@ -31,6 +31,7 @@ const Search = ({
         value={value}
         disabled={loading}
         setValue={setValue}
+        inputMode="search"
         placeholder={props.placeholder ? props.placeholder : "Search..."}
         className="pr-10 focus:border-accent/75  focus:bg-accent/5"
       />
