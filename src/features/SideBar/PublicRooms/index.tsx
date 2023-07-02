@@ -25,7 +25,7 @@ const PublicRooms = ({
   return (
     <div>
       <Search
-        placeholder="Search in my rooms..."
+        placeholder="Search in public rooms..."
         result={result.length}
         {...search}
       />
