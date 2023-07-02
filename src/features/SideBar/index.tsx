@@ -7,6 +7,7 @@ import Navbar from "./Navbar";
 import CreateRoomModal from "@/features/RoomModal";
 import Scrollable from "@/components/Scrollable";
 import Button from "@/components/Button";
+import LoadingSpinner from "./LoadingSpinner";
 
 // Types
 import { TUser } from "@/types";
@@ -86,7 +87,9 @@ const Sidebar = () => {
           className="h-[calc(100%-50px)] flex-1 pr-1"
         >
           <Scrollable hide className="h-full w-full px-4 py-8 pr-2">
-            <Suspense fallback={""}>{currentTap(activeTap)}</Suspense>
+            <Suspense fallback={<LoadingSpinner />}>
+              {currentTap(activeTap)}
+            </Suspense>
           </Scrollable>
         </motion.div>
       </AnimatePresence>

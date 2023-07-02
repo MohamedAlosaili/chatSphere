@@ -1,23 +1,17 @@
-import { lazy, Suspense, useEffect } from "react";
+import { lazy, Suspense } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 
 import { useRoomContext } from "@/context/RoomContext";
+import LoadingSpinner from "@/features/RoomWindow/LoadingSpinner";
 
 const Chat = lazy(() => import("./Chat"));
-
-// const delay = (file: any) => {
-//   return new Promise((res, rej) =>
-//     setTimeout(() => res(file), 5000)
-//   ) as Promise<{ default: ComponentType<any> }>;
-// };
 
 const RoomWindow = () => {
   const { activeRoom } = useRoomContext();
 
   return (
     <div className="absolute left-full top-0 flex items-center justify-center bg-bcolor-2 md:static">
-      {/* TODO: add fallback loader */}
-      <Suspense fallback={"loading..."}>
+      <Suspense fallback={<LoadingSpinner />}>
         <AnimatePresence mode="wait">
           {activeRoom ? (
             <Chat key={activeRoom._id} />
