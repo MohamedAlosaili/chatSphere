@@ -8,6 +8,7 @@ import NavButton from "./NavButton";
 import getUserPhoto from "@/utils/getPhoto";
 import { useUserContext } from "@/context/UserContext";
 import { Tap } from "../types";
+import ToolTip from "@/components/ToolTip";
 
 interface Props {
   activeTap: Tap;
@@ -19,8 +20,9 @@ const Navbar = ({ activeTap, setActiveTap, onlineUsers }: Props) => {
   const { user } = useUserContext();
 
   return (
-    <nav className="absolute bottom-0 left-0 z-10 flex w-full shrink-0 justify-evenly overflow-hidden rounded-tl-2xl rounded-tr-2xl bg-bcolor lg:relative lg:w-fit lg:flex-col lg:items-center lg:justify-start  lg:rounded-br-[2rem] lg:rounded-tl-none lg:rounded-tr-[2rem] lg:py-8">
+    <nav className="absolute bottom-0 left-0 z-10 flex w-full shrink-0 justify-evenly rounded-tl-2xl rounded-tr-2xl bg-bcolor lg:relative lg:w-fit lg:flex-col lg:items-center lg:justify-start  lg:rounded-br-[2rem] lg:rounded-tl-none lg:rounded-tr-[2rem] lg:py-8">
       <NavButton
+        toolTipText="Profile"
         onClick={() => setActiveTap("profile")}
         active={activeTap === "profile"}
       >
@@ -37,12 +39,14 @@ const Navbar = ({ activeTap, setActiveTap, onlineUsers }: Props) => {
       </NavButton>
       <div className="my-4 hidden h-1 w-3/4 rounded-full bg-accent/25 lg:block"></div>
       <NavButton
+        toolTipText="My Rooms"
         onClick={() => setActiveTap("my rooms")}
         active={activeTap === "my rooms"}
       >
         <HiOutlineChatBubbleLeftRight size={28} />
       </NavButton>
       <NavButton
+        toolTipText="Users"
         onClick={() => setActiveTap("users")}
         active={activeTap === "users"}
       >
@@ -54,6 +58,7 @@ const Navbar = ({ activeTap, setActiveTap, onlineUsers }: Props) => {
         </span>
       </NavButton>
       <NavButton
+        toolTipText="Public Rooms"
         onClick={() => setActiveTap("public rooms")}
         active={activeTap === "public rooms"}
       >
@@ -62,9 +67,14 @@ const Navbar = ({ activeTap, setActiveTap, onlineUsers }: Props) => {
       <div className="hidden w-full flex-1 items-end lg:flex">
         <Link
           href="/logout"
-          className="block w-full p-4 text-rose-500 transition-colors hover:bg-rose-500/10 hover:text-rose-500"
+          className="group relative block w-full  p-4 text-rose-500 transition-colors hover:bg-rose-500/10 hover:text-rose-500 focus:outline-none"
         >
           <HiLogout size={28} className="mx-auto" />
+          <ToolTip
+            position="right"
+            text="Logout"
+            className="md:hidden lg:block"
+          />
         </Link>
       </div>
     </nav>

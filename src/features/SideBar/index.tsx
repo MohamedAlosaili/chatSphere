@@ -8,6 +8,7 @@ import CreateRoomModal from "@/features/RoomModal";
 import Scrollable from "@/components/Scrollable";
 import Button from "@/components/Button";
 import LoadingSpinner from "./LoadingSpinner";
+import ToolTip from "@/components/ToolTip";
 
 // Types
 import { TUser } from "@/types";
@@ -95,10 +96,11 @@ const Sidebar = () => {
       </AnimatePresence>
       {activeTap === "my rooms" && (
         <Button
-          className="absolute bottom-24 right-5 px-3 lg:bottom-8"
+          className="group absolute bottom-24 right-5 px-3 lg:bottom-8"
           onClick={() => toggleCreateRoomModal({ show: true })}
         >
           <BiMessageSquareAdd size={25} />
+          <ToolTip position="left" text="New Room" />
         </Button>
       )}
       <AnimatePresence>

@@ -5,6 +5,7 @@ import { MdOutlineArrowBackIos } from "react-icons/md";
 import Image from "@/components/Image";
 import { useRoomContext } from "@/context/RoomContext";
 import getRoomPhoto from "@/utils/getPhoto";
+import ToolTip from "@/components/ToolTip";
 
 interface HeaderProps {
   toggleRoomInfo: () => void;
@@ -39,10 +40,11 @@ const Header = ({ toggleRoomInfo }: HeaderProps) => {
       />
       <h3 className="font-semibold text-tcolor">{roomRef.current.name}</h3>
       <button
-        className="ml-auto flex aspect-square w-8 items-center justify-center rounded-xl text-lg transition-colors hover:bg-bcolor/40"
+        className="group relative ml-auto flex aspect-square w-8 items-center justify-center rounded-xl text-lg transition-colors hover:bg-bcolor/40"
         onClick={toggleRoomInfo}
       >
         <HiDotsVertical />
+        <ToolTip position="left" text="Room Info" />
       </button>
     </div>
   );

@@ -1,12 +1,23 @@
 import { ComponentProps } from "react";
 import { twMerge } from "tailwind-merge";
 
-type Props = ComponentProps<"button"> & { active: boolean };
+import ToolTip from "@/components/ToolTip";
 
-const NavButton = ({ children, className, active, ...props }: Props) => (
+type Props = ComponentProps<"button"> & {
+  active: boolean;
+  toolTipText: string;
+};
+
+const NavButton = ({
+  children,
+  className,
+  active,
+  toolTipText,
+  ...props
+}: Props) => (
   <button
     className={twMerge(
-      `relative p-4 transition-colors hover:text-tcolor lg:w-full ${
+      `group relative p-4 transition-colors hover:text-tcolor focus:outline-none lg:w-full ${
         active ? "bg-accent/10 text-tcolor" : ""
       }`,
       className
@@ -19,6 +30,11 @@ const NavButton = ({ children, className, active, ...props }: Props) => (
         active ? "bg-accent" : "bg-transparent"
       } w-3/4 rounded-tl-md rounded-tr-md lg:w-2`}
     ></div>
+    <ToolTip
+      position="right"
+      text={toolTipText}
+      className="md:hidden lg:block"
+    />
   </button>
 );
 
