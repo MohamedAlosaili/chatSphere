@@ -9,6 +9,7 @@ import Scrollable from "@/components/Scrollable";
 import Button from "@/components/Button";
 import LoadingSpinner from "./LoadingSpinner";
 import ToolTip from "@/components/ToolTip";
+import ErrorBoundary from "@/components/ErrorBoundary";
 
 // Types
 import { TUser } from "@/types";
@@ -89,7 +90,9 @@ const Sidebar = () => {
         >
           <Scrollable hide className="h-full w-full px-4 py-8 pr-2">
             <Suspense fallback={<LoadingSpinner />}>
-              {currentTap(activeTap)}
+              <ErrorBoundary>
+                {currentTap(activeTap)}
+              </ErrorBoundary>
             </Suspense>
           </Scrollable>
         </motion.div>
