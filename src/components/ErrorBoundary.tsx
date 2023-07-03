@@ -2,21 +2,26 @@ import { Component, PropsWithChildren } from "react";
 import { MdError } from "react-icons/md";
 import Button from "./Button";
 
-interface ErrorState {
+interface ErrorBoundaryState {
   hasError: boolean;
   message: string;
   triesCounter: number;
 }
 
-const resetState: Omit<ErrorState, "triesCounter"> = {
+interface ErrorBoundaryProps extends PropsWithChildren {
+  message?: string;
+  onReset?: () => void;
+}
+
+const resetState: Omit<ErrorBoundaryState, "triesCounter"> = {
   hasError: false,
   message: "",
 };
 
 const initialState = { ...resetState, triesCounter: 0 };
 
-class ErrorBoundary extends Component<PropsWithChildren, ErrorState> {
-  constructor(props: PropsWithChildren) {
+class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
+  constructor(props: ErrorBoundaryProps) {
     super(props);
     this.state = initialState;
     this.resetErrorBoundary = this.resetErrorBoundary.bind(this);
@@ -32,7 +37,10 @@ class ErrorBoundary extends Component<PropsWithChildren, ErrorState> {
   // For logging errors in external service
   componentDidCatch() {}
 
-  componentDidUpdate(prevProps: PropsWithChildren, prevState: ErrorState) {
+  componentDidUpdate(
+    prevProps: ErrorBoundaryProps,
+    prevState: ErrorBoundaryState
+  ) {
     if (prevState.hasError && !this.state.hasError) {
       this.setState({
         triesCounter: 0,
@@ -45,6 +53,7 @@ class ErrorBoundary extends Component<PropsWithChildren, ErrorState> {
       ...resetState,
       triesCounter: prev.triesCounter + 1,
     }));
+    this.props.onReset && this.props.onReset();
   }
 
   render() {
@@ -55,7 +64,9 @@ class ErrorBoundary extends Component<PropsWithChildren, ErrorState> {
         <div className="flex h-full items-center justify-center py-4">
           <div className="flex max-w-sm flex-col items-center justify-center gap-4 rounded-xl p-2 py-4 text-center">
             <MdError size={50} className="text-rose-500" />
-            <p className="font-medium text-tcolor">{message}</p>
+            <p className="font-medium text-tcolor">
+              {this.props.message ?? message}
+            </p>
             {triesCounter < 3 ? (
               <Button onClick={this.resetErrorBoundary}>Try again</Button>
             ) : (
