@@ -17,12 +17,8 @@ const Home = ({ user }: { user: TUser }) => (
   <UserContextProvider user={user}>
     <RoomContextProvider>
       <Layout>
-        <ErrorBoundary>
-          <Sidebar />
-        </ErrorBoundary>
-        <ErrorBoundary>
-          <RoomWindow />
-        </ErrorBoundary>
+        <Sidebar />
+        <RoomWindow />
       </Layout>
     </RoomContextProvider>
   </UserContextProvider>
