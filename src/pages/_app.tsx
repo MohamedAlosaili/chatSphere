@@ -2,6 +2,8 @@ import Head from "next/head";
 import type { AppProps } from "next/app";
 import { ToastContainer } from "react-toastify";
 
+import ErrorBoundary from "@/components/ErrorBoundary";
+
 import "react-toastify/dist/ReactToastify.css";
 import "@/styles/globals.css";
 
@@ -40,7 +42,9 @@ export default function App({ Component, pageProps }: AppProps) {
         {/* TODO: Add image */}
         <meta property="twitter:image" content="" />
       </Head>
-      <Component {...pageProps} />
+      <ErrorBoundary>
+        <Component {...pageProps} />
+      </ErrorBoundary>
       <div id="modal"></div>
       <ToastContainer limit={2} />
     </>

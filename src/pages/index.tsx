@@ -3,6 +3,7 @@ import Sidebar from "@/features/SideBar";
 import RoomWindow from "@/features/RoomWindow";
 import UserContextProvider from "@/context/UserContext";
 import RoomContextProvider from "@/context/RoomContext";
+import ErrorBoundary from "@/components/ErrorBoundary";
 import { getTokenCookie, removeTokenCookie } from "@/lib/authCookies";
 import { redirect } from "@/utils/serverProps";
 import { API_URL } from "@/config";
@@ -12,18 +13,20 @@ import { fetcher } from "@/lib/fetcher";
 import { TUser } from "@/types";
 import { GetServerSidePropsContext } from "next";
 
-const Home = ({ user }: { user: TUser }) => {
-  return (
-    <UserContextProvider user={user}>
-      <RoomContextProvider>
-        <Layout>
+const Home = ({ user }: { user: TUser }) => (
+  <UserContextProvider user={user}>
+    <RoomContextProvider>
+      <Layout>
+        <ErrorBoundary>
           <Sidebar />
+        </ErrorBoundary>
+        <ErrorBoundary>
           <RoomWindow />
-        </Layout>
-      </RoomContextProvider>
-    </UserContextProvider>
-  );
-};
+        </ErrorBoundary>
+      </Layout>
+    </RoomContextProvider>
+  </UserContextProvider>
+);
 
 export const getServerSideProps = async ({
   req,
