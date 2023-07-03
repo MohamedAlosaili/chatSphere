@@ -9,6 +9,7 @@ import Conversation from "./Conversation";
 import Form from "./Form";
 import Header from "./Header";
 import RoomInfo from "./RoomInfo";
+import ErrorBoundary from "@/components/ErrorBoundary";
 
 // Types
 import { TMessage } from "@/types";
@@ -43,18 +44,23 @@ const Chat = () => {
       exit={{ left: "100%", opacity: 0 }}
       className="fixed left-0 top-0 z-10 h-screen w-full bg-bcolor-2 md:static"
     >
-      <div className="relative flex h-full w-full flex-col ">
-        <Header toggleRoomInfo={toggleRoomInfo} />
-        <Conversation
-          messages={messages}
-          updateMessages={updateMessages}
-          total={total}
-        />
-        <AnimatePresence>
-          {showRoomInfo && <RoomInfo toggleRoomInfo={toggleRoomInfo} />}
-        </AnimatePresence>
-        <Form />
-      </div>
+      <ErrorBoundary
+        onReset={resetRoom}
+        message="An error occurred while fetching room's info and messages"
+      >
+        <div className="relative flex h-full w-full flex-col ">
+          <Header toggleRoomInfo={toggleRoomInfo} />
+          <Conversation
+            messages={messages}
+            updateMessages={updateMessages}
+            total={total}
+          />
+          <AnimatePresence>
+            {showRoomInfo && <RoomInfo toggleRoomInfo={toggleRoomInfo} />}
+          </AnimatePresence>
+          <Form />
+        </div>
+      </ErrorBoundary>
     </motion.div>
   );
 };
