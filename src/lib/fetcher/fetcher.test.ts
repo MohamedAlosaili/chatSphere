@@ -1,4 +1,4 @@
-import { fetcher } from "../fetcher";
+import { fetcher } from ".";
 import { expect, test } from "vitest";
 
 const server = "http://localhost:3000";
