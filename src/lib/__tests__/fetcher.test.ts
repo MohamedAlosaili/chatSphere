@@ -16,14 +16,14 @@ test("Should successfully send a login link", async () => {
   });
 });
 
-test("Should failed, because url not provided", async () => {
+test("Should return unsuccessful response, because url not provided", async () => {
   const response = await fetcher("");
 
   expect(response.success).toBe(false);
   expect(response.error).toBeDefined();
 });
 
-test("Should failed, because email not provided", async () => {
+test("Should return unsuccessful response, because email not provided", async () => {
   const response = await fetcher<null>(`${server}/api/auth/login`, {
     method: "POST",
   });
