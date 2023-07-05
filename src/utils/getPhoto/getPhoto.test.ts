@@ -1,4 +1,4 @@
-import getPhoto from "../getPhoto";
+import getPhoto from ".";
 import { describe, expect, it } from "vitest";
 
 describe("Return photo url", () => {
