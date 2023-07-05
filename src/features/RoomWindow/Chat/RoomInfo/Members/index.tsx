@@ -4,7 +4,7 @@ import { MdOutlineArrowForwardIos } from "react-icons/md";
 import { useUserContext } from "@/context/UserContext";
 import useDocuments from "@/hooks/useDocuments";
 import MemberCard, { MemberCardsSkeletonLoader } from "./MemberCard";
-import { roomMembers } from "./util";
+import { roomMembers } from "./utils";
 
 import { TMember, TRoom } from "@/types";
 

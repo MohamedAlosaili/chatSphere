@@ -1,4 +1,4 @@
-import { roomMembers } from "../util";
+import { roomMembers } from "../utils";
 import { describe, expect, it } from "vitest";
 import { TMember, TUser } from "@/types";
 
