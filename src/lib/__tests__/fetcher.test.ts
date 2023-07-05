@@ -3,18 +3,20 @@ import { expect, test } from "vitest";
 
 const server = "http://localhost:3000";
 
-test("Should successfully send a login link", async () => {
-  const response = await fetcher<null>(`${server}/api/auth/login`, {
-    method: "POST",
-    data: { email: "mohamed@gmail.com" },
-  });
+// Comment this test to prevent unnecessary calls after the test is passed
 
-  expect(response).toEqual({
-    success: true,
-    data: null,
-    message: "Email sent successfully",
-  });
-});
+// test("Should successfully send a login link", async () => {
+//   const response = await fetcher<null>(`${server}/api/auth/login`, {
+//     method: "POST",
+//     data: { email: "mohamed@gmail.com" },
+//   });
+
+//   expect(response).toEqual({
+//     success: true,
+//     data: null,
+//     message: "Email sent successfully",
+//   });
+// });
 
 test("Should return unsuccessful response, because url not provided", async () => {
   const response = await fetcher("");
