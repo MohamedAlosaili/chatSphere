@@ -21,15 +21,22 @@ export const fetcher = async <TData = any>(
   options?: AxiosRequestConfig
 ) => {
   try {
+    if (!url?.trim?.() || typeof url !== "string") {
+      throw new Error("Failed to fetch resource");
+    }
+
     const { data } = await axios<FetcherResponse<TData>>(url, options);
 
     return { ...data };
   } catch (err) {
     let error = "Internal Server Error";
 
-    if (err instanceof AxiosError) {
+    if (
+      err instanceof AxiosError &&
+      (err.response?.data.error || err.response?.statusText)
+    ) {
       error = err.response?.data.error ?? err.response?.statusText;
-    } else if (err instanceof Error) {
+    } else if (err instanceof Error && err.message) {
       error = err.message;
     }
 
