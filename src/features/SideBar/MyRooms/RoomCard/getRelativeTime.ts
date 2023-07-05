@@ -1,4 +1,4 @@
-const weekDays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+export const weekDays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
 const relativeTime = (date: string) => {
   const originalTime = new Date(date);
