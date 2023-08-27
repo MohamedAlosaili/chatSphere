@@ -62,6 +62,7 @@ const Form = () => {
           />
         )}
       </AnimatePresence>
+      
       <div className="sticky bottom-0 left-0 z-50 h-20 w-full shrink-0 border-t border-accent/25 bg-bcolor-2 p-4 text-tcolor">
         <div className="relative mx-auto max-w-4xl">
           <form onSubmit={sendMessage}>
